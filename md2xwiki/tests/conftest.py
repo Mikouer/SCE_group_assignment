@@ -1,4 +1,5 @@
 import shutil
+from html import escape
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 import xml.etree.ElementTree as ET
@@ -50,6 +51,13 @@ def xml_body(name, values=()):
     for key, value in values:
         ET.SubElement(element, f"{{{NS}}}{key}").text = value
     return ET.tostring(element)
+
+
+def page_response(page, status=200):
+    return response(status, xml_body("page", [
+        ("title", escape(page.title)), ("rawTitle", page.title),
+        ("syntax", page.syntax), ("content", page.content),
+    ]))
 
 
 class WikiSession:
@@ -137,7 +145,7 @@ class WikiSession:
                 self.assets.pop(key, None)
                 return response(204)
         if method == "GET":
-            return response(200, self.pages[reference].body()) if reference in (
+            return page_response(self.pages[reference]) if reference in (
                 self.pages
             ) else response(404)
         if method == "PUT":
@@ -149,7 +157,7 @@ class WikiSession:
             self.pages[reference] = RemotePage(*(
                 root.find(f"{{{NS}}}{name}").text or "" for name in ("title", "syntax", "content")
             ))
-            return response(code, self.pages[reference].body())
+            return page_response(self.pages[reference], code)
         if method == "DELETE":
             self.pages.pop(reference, None)
             self.assets = {key: value for key, value in self.assets.items() if key[0] != reference}

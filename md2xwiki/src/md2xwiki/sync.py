@@ -282,6 +282,9 @@ class Publisher:
                 state.dirty = True
                 unchanged.append(page.reference.document)
             else:
+                if page.preserve_content and owned.hash != actual:
+                    owned.hash = actual
+                    state.dirty = True
                 unchanged.append(page.reference.document)
             for name, attachment in page.attachments.items():
                 actual_asset = self.client.attachment_hash(page.reference, name) if remote else None

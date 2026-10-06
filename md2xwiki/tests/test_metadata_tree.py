@@ -1,4 +1,5 @@
 import json
+from html import escape
 import subprocess
 import sys
 from pathlib import Path
@@ -8,12 +9,13 @@ import requests
 
 from md2xwiki.client import Client, PublicMetadataAuth, RemotePage
 from md2xwiki.cli import main
-from md2xwiki.config import load_config
+from md2xwiki.config import MANIFEST, load_config
 from md2xwiki.destinations import file_config, tree_config
 from md2xwiki.errors import PublishError
 from md2xwiki.references import Reference
+from md2xwiki.model import page_hash
 from md2xwiki.renderer import compile_tree
-from md2xwiki.sync import Publisher
+from md2xwiki.sync import Operation, Publisher, encode
 
 from conftest import WikiSession, response, xml_body
 
@@ -120,6 +122,62 @@ def test_header_only_missing_page_is_created_empty(tmp_path, monkeypatch):
     ref = config.roots[0].reference
     assert session.pages[ref] == RemotePage("Container", "xwiki/2.1", "")
     assert not publisher.preflight().operations
+
+
+def test_legacy_pending_escaped_title_recovers_without_rewriting_page(tmp_path, monkeypatch):
+    file = page(tmp_path / "concept.md", "Communication & Interaction", "# Replacement\n")
+    config = file_config(file, PROJECT + "/Concept/")
+    client, session = client_for(config, monkeypatch)
+    ref = config.roots[0].reference
+    original = RemotePage("Communication & Interaction", "xwiki/2.1", "Original content\n")
+    session.pages[ref] = original
+    publisher = Publisher(compile_tree(config), client, tmp_path / "output")
+    plan = publisher.preflight()
+    state = plan.states[ref]
+    compiled = publisher.build.pages[0]
+    # The old client used the display title in both its payload and pending hashes.
+    stored = RemotePage(escape(original.title), compiled.syntax, compiled.content)
+    state.pending = Operation("page", ref,
+                              page_hash(escape(original.title), original.syntax, original.content),
+                              stored.hash)
+    session.assets[(ref, MANIFEST)] = encode(state.json(config))
+    session.pages[ref] = stored
+    resumed = Publisher(compile_tree(config), client, tmp_path / "resumed")
+    recovery = resumed.preflight()
+    assert not recovery.operations
+    assert recovery.states[ref].pending is None
+    assert recovery.states[ref].pages[ref].hash == stored.hash
+    resumed.apply(recovery)
+    assert session.pages[ref] == stored
+    assert not any(method == "PUT" and url.endswith(ref.endpoint)
+                   for method, url, kwargs in session.calls)
+    verification = resumed.preflight()
+    assert not verification.operations
+    assert not any(state.dirty for state in verification.states.values())
+
+
+def test_preserved_empty_raw_title_refreshes_legacy_display_title_baseline(
+        tmp_path, monkeypatch):
+    file = page(tmp_path / "overview.md", "Container")
+    config = file_config(file, PROJECT + "/Container/")
+    client, session = client_for(config, monkeypatch)
+    ref = config.roots[0].reference
+    stored = RemotePage("", "xwiki/2.1", "= Existing overview =\n")
+    session.pages[ref] = stored
+    publisher = Publisher(compile_tree(config), client, tmp_path / "output")
+    initial = publisher.preflight()
+    initial.states[ref].pages[ref].hash = page_hash(
+        "Existing overview", stored.syntax, stored.content)
+    session.assets[(ref, MANIFEST)] = encode(initial.states[ref].json(config))
+    recovery = publisher.preflight()
+    assert not recovery.operations
+    assert recovery.states[ref].pages[ref].hash == stored.hash
+    assert recovery.states[ref].dirty
+    publisher.apply(recovery)
+    assert session.pages[ref] == stored
+    assert not any(method == "PUT" and url.endswith(ref.endpoint)
+                   for method, url, kwargs in session.calls)
+    assert not any(state.dirty for state in publisher.preflight().states.values())
 
 
 def test_push_tree_creates_missing_root_and_children_and_preserves_titles(tmp_path, monkeypatch):

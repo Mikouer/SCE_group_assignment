@@ -199,18 +199,18 @@ with this repository. GitHub supplies `GITHUB_TOKEN` automatically; do not creat
 a registry token secret. After the image build/push succeeds, the publishing job
 pulls that exact image and publishes the trees from `xwiki.toml`.
 
-Configure protected environments `xwiki-test` and `xwiki`, with:
+The publishing job uses the `xwiki` environment. Configure:
 
 | Setting | Where | Purpose |
 | --- | --- | --- |
-| `XWIKI_USERNAME`, `XWIKI_PASSWORD` | Environment secrets | Publisher account |
-| `XWIKI_EXPECTED_USER` (optional) | Environment variable | Exact authenticated reference |
-| `XWIKI_RUNNER_LABELS` | Repository variable | JSON labels; default `["self-hosted","linux","xwiki"]` |
+| `XWIKI_USERNAME`, `XWIKI_PASSWORD` | Repository or `xwiki` environment secrets | Publisher account |
+| `XWIKI_EXPECTED_USER` (optional) | Repository or `xwiki` environment variable | Exact authenticated reference |
 | `XWIKI_PUBLISH_ENABLED` | Repository variable | Leave unset until docs are ready; then `true` |
 
-Use a trusted Docker-enabled runner that can reach the course wiki; do not expose
-it to untrusted PR jobs. Manual dispatch defaults to the sample at `test`.
-Production needs the default branch and the enabled variable. Pruning is off
+Publishing runs on GitHub-hosted `ubuntu-latest`, which includes Docker; no
+self-hosted runner or runner-label variable is needed. The course wiki must be
+reachable from that runner. For manual publishing, select target `production`.
+Publishing needs the default branch and the enabled variable. Pruning is off
 unless explicitly selected for manual production deployment. Enable repository
 Actions access to the GHCR package if needed.
 
@@ -221,6 +221,20 @@ Artifacts retain compiled output, configuration, backups and summaries without
 credentials; backups can contain private wiki content and need restricted access.
 
 ## Safety and supported syntax
+
+Page reads and ownership hashes use REST `rawTitle`, not the rendered `title`.
+Rendered titles can contain HTML entities or be derived from a heading when the
+stored title is empty. Sending them back as titles causes double escaping and
+read-back failures. Raw titles and content are compared exactly; no HTML
+unescaping or relaxed content verification is applied.
+
+If an older image failed after saving an escaped title, retain the failure
+artifacts and run the updated image with the same configuration/deployment ID.
+The pending write is recovered only when the stored page matches its journaled
+hash. This prevents another escape layer but does not undo an already-stored
+literal `&amp;` title; review the original title in the backup/wiki history
+before correcting it. Header-only pages retain empty raw titles, and their
+ownership baselines are refreshed without rewriting page content.
 
 All selected pages, links, headers and hierarchy are validated before publishing.
 Relative Markdown links use the complete declared source-to-destination map;

@@ -7,7 +7,7 @@ from md2xwiki.client import Client, NS, RemotePage, xml
 from md2xwiki.errors import PublishError
 from md2xwiki.references import Reference
 
-from conftest import WikiSession, response, xml_body
+from conftest import WikiSession, page_response, response, xml_body
 
 
 def test_authenticated_probe_and_request_shape(wiki, temporary_config):
@@ -32,6 +32,61 @@ def test_empty_optional_expected_identity_falls_back_to_username(temporary_confi
     monkeypatch.setenv("XWIKI_EXPECTED_USER", "")
     session = WikiSession(temporary_config)
     assert Client(temporary_config, session).probe() == "18.7.0"
+
+
+@pytest.mark.parametrize("title", [
+    "Communication & Interaction", 'Quotes "and" <tags>',
+    "Literal &amp; stays literal", "**Unrendered wiki title**", "",
+])
+def test_page_roundtrip_verifies_stored_title_not_rendered_title(wiki, title):
+    client, session = wiki
+    ref = session.config.roots[0].reference
+    desired = RemotePage(title, "xwiki/2.1", "Keep literal &amp; content\n")
+    client.put_page(ref, desired, None)
+    assert client.get_page(ref) == desired
+    assert client.page_hash(ref) == desired.hash
+    count = len([call for call in session.calls if call[0] == "PUT"])
+    client.put_page(ref, desired, desired.hash)
+    assert len([call for call in session.calls if call[0] == "PUT"]) == count
+
+
+def test_empty_raw_title_is_not_replaced_with_derived_display_title(wiki):
+    client, session = wiki
+    ref = session.config.roots[0].reference
+    session.fail = lambda *args: response(body=xml_body("page", [
+        ("title", "Derived from the heading"), ("rawTitle", ""),
+        ("syntax", "xwiki/2.1"), ("content", "= Heading =\n"),
+    ]))
+    assert client.get_page(ref) == RemotePage("", "xwiki/2.1", "= Heading =\n")
+
+
+def test_page_without_raw_title_fails_instead_of_using_rendered_title(wiki):
+    client, session = wiki
+    session.fail = lambda *args: response(body=xml_body("page", [
+        ("title", "Rendered &amp; title"), ("syntax", "xwiki/2.1"), ("content", "Body"),
+    ]))
+    with pytest.raises(PublishError, match="missing rawTitle"):
+        client.get_page(session.config.roots[0].reference)
+
+
+@pytest.mark.parametrize("field", ["title", "syntax", "content"])
+def test_readback_rejects_changes_to_stored_page_fields(wiki, field):
+    client, session = wiki
+    ref = session.config.roots[0].reference
+    desired = RemotePage("Communication & Interaction", "xwiki/2.1", "Body")
+    fields = dict(title=desired.title, syntax=desired.syntax, content=desired.content)
+    fields[field] = "Changed remotely"
+    changed = RemotePage(**fields)
+    def fail(method, endpoint, kwargs):
+        if method == "PUT":
+            session.pages[ref] = changed
+            return page_response(changed, 201)
+    session.fail = fail
+    with pytest.raises(PublishError, match="Read-back mismatch") as error:
+        client.put_page(ref, desired, None)
+    assert desired.hash in str(error.value)
+    assert changed.hash in str(error.value)
+    assert len([call for call in session.calls if call[0] == "PUT"]) == 1
 
 
 @pytest.mark.parametrize("status", [401, 403, 302])

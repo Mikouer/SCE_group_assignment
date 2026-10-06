@@ -169,7 +169,7 @@ class Client:
         if response.status_code == 404:
             return None
         page = xml(response, "page")
-        return RemotePage(text(page, "title"), text(page, "syntax"), text(page, "content"))
+        return RemotePage(text(page, "rawTitle"), text(page, "syntax"), text(page, "content"))
 
     def get_attachment(self, reference: Reference, name: str) -> bytes | None:
         response = self.request("GET", reference.attachment_endpoint(name), missing=True)
@@ -202,8 +202,10 @@ class Client:
                     raise
                 time.sleep(2 ** attempt)
                 continue
-            if read_hash() != after:
-                raise PublishError(f"Read-back mismatch after {method} {endpoint}")
+            actual = read_hash()
+            if actual != after:
+                raise PublishError(f"Read-back mismatch after {method} {endpoint}; "
+                                   f"expected hash {after}, got {actual}")
             return
 
     def page_hash(self, reference: Reference) -> str | None:
