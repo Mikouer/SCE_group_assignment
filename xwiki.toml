@@ -1,0 +1,16 @@
+[xwiki]
+project_root = "https://xwiki.ewi.tudelft.nl/xwiki/wiki/sce2026group05/view"
+source = "docs/xwiki"
+layout = "yaml"
+syntax = "xwiki/2.1"
+deployment_id = "sce2026group05-markdown"
+mode = "production"
+
+[[roots]]
+source = "1-foundation"
+
+[[roots]]
+source = "2-specification"
+
+[[roots]]
+source = "3-evaluation"

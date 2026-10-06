@@ -1,0 +1,97 @@
+name: Build md2xwiki and publish XWiki
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "md2xwiki/**"
+      - "scripts/**"
+      - "docs/xwiki/**"
+      - "xwiki.toml"
+      - ".github/workflows/publish-xwiki.yml"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Publish the sample to test, or the real documentation trees"
+        type: choice
+        options: [temporary, production]
+        default: temporary
+      prune:
+        description: "Production only: delete unchanged, previously owned removed items"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+# Local runs must also be coordinated with humans/CI; REST has no multi-page transaction.
+concurrency:
+  group: xwiki-sce2026group05
+  cancel-in-progress: false
+
+jobs:
+  metadata:
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.image.outputs.name }}
+    steps:
+      - id: image
+        shell: bash
+        run: echo "name=ghcr.io/${GITHUB_REPOSITORY,,}/md2xwiki" >> "$GITHUB_OUTPUT"
+
+  docker:
+    needs: [metadata]
+    uses: axillusion/build-tools/.github/workflows/docker-build-and-push.yml@main
+    permissions:
+      contents: read
+      packages: write
+    with:
+      image: ${{ needs.metadata.outputs.image }}
+      context: "md2xwiki"
+      dockerfile: "md2xwiki/Dockerfile"
+      platforms: "linux/amd64,linux/arm64"
+      version: ${{ github.sha }}
+      add_latest: ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
+    secrets:
+      registry_token: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    if: >-
+      vars.XWIKI_PUBLISH_ENABLED == 'true' &&
+      github.ref == format('refs/heads/{0}', github.event.repository.default_branch) &&
+      (github.event_name == 'push' ||
+       (github.event_name == 'workflow_dispatch' && inputs.target == 'production'))
+    needs: [metadata, docker]
+    runs-on: ${{ fromJSON(vars.XWIKI_RUNNER_LABELS || '["self-hosted","linux","xwiki"]') }}
+    environment: xwiki
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish all configured trees with the SHA-tagged container
+        env:
+          XWIKI_USERNAME: ${{ secrets.XWIKI_USERNAME }}
+          XWIKI_PASSWORD: ${{ secrets.XWIKI_PASSWORD }}
+          XWIKI_EXPECTED_USER: ${{ vars.XWIKI_EXPECTED_USER }}
+          IMAGE: ${{ needs.metadata.outputs.image }}:${{ github.sha }}
+          PRUNE: ${{ github.event_name == 'workflow_dispatch' && inputs.prune }}
+        shell: bash
+        run: |
+          docker pull "$IMAGE"
+          args=()
+          if [[ "$PRUNE" == true ]]; then args+=(--prune); fi
+          bash scripts/run-xwiki.sh "$IMAGE" xwiki.toml build/xwiki "${args[@]}"
+      - name: Retain compilation, backups and deployment summaries
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xwiki-publish-${{ github.run_id }}
+          path: build/xwiki/
+          if-no-files-found: ignore
+          retention-days: 14
