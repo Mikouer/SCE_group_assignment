@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Echo Prototype</title>
+<style>
+  :root{
+    --bg:#f4f1ea; --panel:#fff; --ink:#2b2620; --muted:#7a7266;
+    --accent:#c76b3f; --accent2:#3f7a68; --line:#d8d2c4; --eye-off:#3a352d;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1c1a16; --panel:#252220; --ink:#efe9dc; --muted:#a69d8c;
+      --accent:#e08659; --accent2:#5fae95; --line:#3a352d; --eye-off:#15130f;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1c1a16; --panel:#252220; --ink:#efe9dc; --muted:#a69d8c;
+    --accent:#e08659; --accent2:#5fae95; --line:#3a352d; --eye-off:#15130f;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{
+    margin:0; min-height:100%; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    padding:env(safe-area-inset-top,0px) 16px env(safe-area-inset-bottom,0px);
+    display:flex; flex-direction:column; align-items:center; gap:20px;
+  }
+  h1{font-size:1.1rem; margin:18px 0 0; letter-spacing:.02em;}
+  .sub{color:var(--muted); font-size:.85rem; margin:-12px 0 4px; text-align:center;}
+  .stage{
+    background:var(--panel); border:1px solid var(--line); border-radius:16px;
+    padding:28px; display:flex; flex-direction:column; align-items:center; gap:14px;
+    width:100%; max-width:360px;
+  }
+  .robot{ width:180px; height:180px; transition:transform .8s ease; transform-origin:90px 160px; }
+  .robot.turn{ transform:rotate(-12deg); }
+  .eye{ transition:fill .4s ease, filter .4s ease; }
+  .eye.lit{ fill:var(--accent); filter:drop-shadow(0 0 8px var(--accent)); }
+  .eye.off{ fill:var(--eye-off); }
+  .bubble{
+    min-height:48px; width:100%; background:var(--bg); border:1px solid var(--line);
+    border-radius:10px; padding:10px 14px; font-size:.92rem; text-align:center;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .state-tag{
+    font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted);
+  }
+  .panel{
+    width:100%; max-width:360px; background:var(--panel); border:1px solid var(--line);
+    border-radius:16px; padding:16px;
+  }
+  .panel h2{ font-size:.85rem; margin:0 0 10px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+  .btn-grid{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  button{
+    font-family:inherit; font-size:.85rem; padding:10px 8px; border-radius:8px;
+    border:1px solid var(--line); background:var(--bg); color:var(--ink); cursor:pointer;
+  }
+  button:active{ transform:scale(.97); }
+  button.primary{ background:var(--accent); color:#fff; border-color:var(--accent); }
+  button.danger{ background:var(--accent2); color:#fff; border-color:var(--accent2); grid-column:1/-1; }
+  .log{
+    width:100%; max-width:360px; background:var(--panel); border:1px solid var(--line);
+    border-radius:16px; padding:16px; max-height:160px; overflow-y:auto;
+  }
+  .log h2{ font-size:.85rem; margin:0 0 8px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+  .log-entry{ font-size:.8rem; padding:4px 0; border-bottom:1px dashed var(--line); color:var(--muted); }
+  .log-entry b{ color:var(--ink); }
+</style>
+</head>
+<body>
+
+<h1>🦉 Echo — Wizard-of-Oz Prototype</h1>
+<p class="sub">Trigger panel below is for the researcher only — hide it from the participant's view.</p>
+
+<div class="stage">
+  <svg class="robot" id="robotSvg" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="90" cy="170" rx="60" ry="8" fill="var(--line)" opacity=".5"/>
+    <g id="head">
+      <path d="M40 60 Q90 10 140 60 L150 130 Q90 165 30 130 Z" fill="var(--panel)" stroke="var(--line)" stroke-width="3"/>
+      <polygon points="45,55 30,20 60,45" fill="var(--panel)" stroke="var(--line)" stroke-width="3"/>
+      <polygon points="135,55 150,20 120,45" fill="var(--panel)" stroke="var(--line)" stroke-width="3"/>
+      <circle class="eye off" id="eyeL" cx="68" cy="85" r="16"/>
+      <circle class="eye off" id="eyeR" cx="112" cy="85" r="16"/>
+      <circle cx="68" cy="85" r="6" fill="var(--panel)" opacity=".85"/>
+      <circle cx="112" cy="85" r="6" fill="var(--panel)" opacity=".85"/>
+      <polygon points="90,100 82,115 98,115" fill="var(--accent)" opacity=".7"/>
+    </g>
+  </svg>
+  <div class="state-tag" id="stateTag">resting</div>
+  <div class="bubble" id="bubble">— quiet —</div>
+</div>
+
+<div class="panel">
+  <h2>Wizard-of-Oz controls</h2>
+  <div class="btn-grid">
+    <button class="primary" onclick="firstReminder()">1st reminder</button>
+    <button class="primary" onclick="secondReminder()">2nd reminder (urgent)</button>
+    <button onclick="mealEaten()">Meal eaten ✓</button>
+    <button onclick="reset()">Reset to idle</button>
+    <button class="danger" onclick="escalate()">Escalate to Sarah</button>
+  </div>
+</div>
+
+<div class="log">
+  <h2>Event log (Sarah's summary)</h2>
+  <div id="logList"></div>
+</div>
+
+<script>
+  const eyeL = document.getElementById('eyeL');
+  const eyeR = document.getElementById('eyeR');
+  const robot = document.getElementById('robotSvg');
+  const bubble = document.getElementById('bubble');
+  const stateTag = document.getElementById('stateTag');
+  const logList = document.getElementById('logList');
+
+  function speak(text){
+    try{
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate = 0.95; u.pitch = 1.0;
+      window.speechSynthesis.cancel();
+      window.speechSynthesis.speak(u);
+    }catch(e){ /* speech not available, silently continue */ }
+  }
+
+  function setEyes(lit){
+    eyeL.classList.toggle('lit', lit);
+    eyeL.classList.toggle('off', !lit);
+    eyeR.classList.toggle('lit', lit);
+    eyeR.classList.toggle('off', !lit);
+  }
+
+  function turnHead(turn){
+    robot.classList.toggle('turn', turn);
+  }
+
+  function say(text, tag){
+    bubble.textContent = text;
+    stateTag.textContent = tag;
+    speak(text);
+  }
+
+  function log(entry){
+    const time = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    const div = document.createElement('div');
+    div.className = 'log-entry';
+    div.innerHTML = '<b>' + time + '</b> — ' + entry;
+    logList.prepend(div);
+  }
+
+  function firstReminder(){
+    setEyes(true); turnHead(true);
+    say("Cleber, have you had lunch yet? Come warm up your plate when you're ready.", "checking in");
+    log("First reminder sent — no response yet");
+  }
+
+  function secondReminder(){
+    setEyes(true); turnHead(true);
+    say("Your lunch is ready in the fridge, Cleber.", "repeating, more direct");
+    log("Second reminder sent — still unresolved");
+  }
+
+  function mealEaten(){
+    setEyes(false); turnHead(false);
+    say("All right, glad you got to eat.", "resolved, settling back");
+    log("Meal confirmed eaten — reminders stopped, logged as routine");
+    setTimeout(reset, 2500);
+  }
+
+  function escalate(){
+    setEyes(true); turnHead(false);
+    say("Alerting Sarah now.", "escalating");
+    log("<b style='color:var(--accent)'>ESCALATION</b> — message sent to Sarah: Cleber hasn't eaten since last evening");
+  }
+
+  function reset(){
+    setEyes(false); turnHead(false);
+    bubble.textContent = "— quiet —";
+    stateTag.textContent = "resting";
+  }
+</script>
+
+</body>
+</html>
