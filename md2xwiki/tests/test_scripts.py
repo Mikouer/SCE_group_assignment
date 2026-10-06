@@ -79,7 +79,6 @@ def test_workflow_calls_requested_component_and_shared_scripts():
     assert 'dockerfile: "md2xwiki/Dockerfile"' in workflow
     assert "version: ${{ github.sha }}" in workflow
     assert "registry_token: ${{ secrets.GITHUB_TOKEN }}" in workflow
-    assert 'bash scripts/test-xwiki.sh --image "$IMAGE"' in workflow
     assert 'bash scripts/run-xwiki.sh "$IMAGE" xwiki.toml' in workflow
     assert "vars.XWIKI_PUBLISH_ENABLED == 'true'" in workflow
     assert "cancel-in-progress: false" in workflow
@@ -92,11 +91,13 @@ def test_workflow_builds_before_publishing_without_ci_validation():
     assert set(workflow["on"]) == {"push", "workflow_dispatch"}
     assert workflow["on"]["push"]["branches"] == ["main"]
     jobs = workflow["jobs"]
-    assert set(jobs) == {"metadata", "docker", "temporary-test", "publish"}
+    assert set(jobs) == {"metadata", "docker", "publish"}
     assert jobs["docker"]["needs"] == ["metadata"]
     assert jobs["docker"]["with"]["image"] == "${{ needs.metadata.outputs.image }}"
     assert jobs["docker"]["with"]["version"] == "${{ github.sha }}"
-    for name in ("temporary-test", "publish"):
-        assert jobs[name]["needs"] == ["metadata", "docker"]
-        publishing = next(step for step in jobs[name]["steps"] if "IMAGE" in step.get("env", {}))
-        assert publishing["env"]["IMAGE"] == "${{ needs.metadata.outputs.image }}:${{ github.sha }}"
+    assert jobs["publish"]["needs"] == ["metadata", "docker"]
+    assert jobs["publish"]["runs-on"] == "ubuntu-latest"
+    assert jobs["metadata"]["runs-on"] == "ubuntu-latest"
+    assert "XWIKI_RUNNER_LABELS" not in path.read_text()
+    publishing = next(step for step in jobs["publish"]["steps"] if "IMAGE" in step.get("env", {}))
+    assert publishing["env"]["IMAGE"] == "${{ needs.metadata.outputs.image }}:${{ github.sha }}"
