@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "md2xwiki"
+version = "0.1.0"
+description = "Guarded Markdown tree publishing to XWiki 2.1"
+requires-python = ">=3.11"
+dependencies = [
+  "markdown-it-py==3.0.0",
+  "requests==2.32.5",
+  "PyYAML==6.0.3",
+]
+
+[project.optional-dependencies]
+test = ["pytest==8.4.2"]
+
+[project.scripts]
+md2xwiki = "md2xwiki.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

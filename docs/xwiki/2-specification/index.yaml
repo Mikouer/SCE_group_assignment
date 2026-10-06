@@ -1,0 +1,8 @@
+pageText: Specification.md
+children:
+  - design-scenarios
+  - personas
+  - objective-stories
+  - use-cases
+  - team-design-patterns
+  - interaction-design-patterns
