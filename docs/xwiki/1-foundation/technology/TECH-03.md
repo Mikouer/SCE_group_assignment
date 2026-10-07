@@ -24,4 +24,4 @@ Caine, K., Šabanović, S., & Carter, M. (2012).
 [The effect of monitoring by cameras and robots on the privacy enhancing behaviors of older adults](https://doi.org/10.1145/2157689.2157807).
 In *Proceedings of the 7th ACM/IEEE International Conference on Human-Robot Interaction (HRI '12)* (pp. 343–350).
 
-This directly compared a camera, a stationary robot, and a mobile robot in older adults' homes and found camera monitoring produced the strongest privacy-protective behavioral response of the three, grounding the rejection in comparative evidence rather than assumption alone. [TECH-01](./TECH-01.md) and [TECH-02](./TECH-02.md) show the robot and task-scoped sensing alternatives this project selected instead.
+
