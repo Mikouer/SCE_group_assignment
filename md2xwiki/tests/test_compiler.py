@@ -67,6 +67,60 @@ def test_duplicate_heading_suffix_collision(temporary_config):
     assert page.heading_ids == ["a", "a-1", "a-1-1", "a-2", "café"]
 
 
+@pytest.mark.parametrize("tag", ["<br>", "<br/>", "<br />", "<BR>", "<Br />"])
+def test_html_line_breaks_use_native_xwiki_breaks(temporary_config, tag):
+    source(temporary_config,
+           f"First{tag}Second\n\n"
+           f"| Field | Meaning |\n| --- | --- |\n"
+           f"| Criteria | Served{tag}{tag}Violated |\n")
+    content = compile_tree(temporary_config).pages[0].content
+    assert "First\\\\\nSecond" in content
+    assert "|(((\nServed\\\\\n\\\\\nViolated\n)))" in content
+    assert "<br" not in content.lower()
+
+
+@pytest.mark.parametrize("content,expected", [
+    ("<br>\nFollowing text\n", "\\\\\n\nFollowing text\n"),
+    ("<br/>Following text\n", "\\\\\nFollowing text\n"),
+    ("<br>\n<br />\nFollowing text\n", "\\\\\n\n\\\\\n\nFollowing text\n"),
+    ("> <br>\n> Following text\n", ">(((\n\\\\\n\nFollowing text\n)))"),
+    ("- <br>Following text\n", "* (((\n\\\\\nFollowing text\n)))"),
+])
+def test_leading_line_breaks_do_not_consume_following_markdown(
+        temporary_config, content, expected):
+    source(temporary_config, content)
+    assert expected in compile_tree(temporary_config).pages[0].content
+
+
+def test_heading_line_breaks_use_spaces_in_anchor_names(temporary_config):
+    source(temporary_config, "# First<br>Second\n[heading](#first-second)\n")
+    page = compile_tree(temporary_config).pages[0]
+    assert page.heading_ids == ["first-second"]
+    assert "= First\\\\\nSecond =" in page.content
+    assert '||anchor="first-second"]]' in page.content
+
+
+def test_line_break_tags_in_code_and_escaped_text_remain_literal(temporary_config):
+    source(temporary_config, "`<br>` and \\<br>\n\n```text\n<br><br />\n```\n")
+    content = compile_tree(temporary_config).pages[0].content
+    assert "##~<br~>## and ~<br~>" in content
+    assert '{{code language="text"}}\n<br><br />\n{{/code}}' in content
+    assert "\\\\\n" not in content
+
+
+@pytest.mark.parametrize("content", [
+    'First<br class="gap">Second', 'First<br onclick="alert(1)">Second',
+    'First<br style="display:none">Second', 'First</br>Second',
+    '<br class="gap">\nFollowing text', "<br><script>alert(1)</script>",
+    "<br>\n<div>Still unsupported</div>", "First<span>Second</span>",
+    "<!-- Still unsupported -->",
+])
+def test_line_break_support_does_not_allow_other_html(temporary_config, content):
+    source(temporary_config, content)
+    with pytest.raises(PublishError, match=r"index.md:.*Unsupported"):
+        compile_tree(temporary_config)
+
+
 @pytest.mark.parametrize("content", [
     "[bad](missing.md)", "[bad](#missing)", "[bad](../../../outside.txt)",
     "[bad](/absolute.md)", "[bad](index.md?query=x)",

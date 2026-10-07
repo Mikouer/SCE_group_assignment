@@ -3,6 +3,7 @@ import unicodedata
 from pathlib import Path
 
 from markdown_it import MarkdownIt
+from markdown_it.rules_block import StateBlock, html_block
 from markdown_it.rules_inline import StateInline
 from markdown_it.token import Token
 
@@ -13,12 +14,33 @@ from .metadata import read_markdown, read_tree, WikiTreeNode
 from .paths import inside
 from .references import Reference
 
+LINE_BREAK = re.compile(r"<br[ \t\r\n]*/?>", re.IGNORECASE)
+
 
 def parser() -> MarkdownIt:
     md = MarkdownIt("commonmark", {"html": True}).enable(["table", "strikethrough"])
     # Let the resolver reject bad schemes rather than CommonMark silently treating
     # a disallowed link as ordinary text.
     md.validateLink = lambda href: True
+
+    def line_break(state: StateInline, silent: bool) -> bool:
+        match = LINE_BREAK.match(state.src, state.pos)
+        if match is None:
+            return False
+        if not silent:
+            state.push("hardbreak", "br", 0)
+        state.pos = match.end()
+        return True
+
+    def other_html_block(state: StateBlock, start: int, end: int, silent: bool) -> bool:
+        # A leading <br> must reach the inline parser, not swallow a paragraph as HTML.
+        if LINE_BREAK.match(state.src, state.bMarks[start] + state.tShift[start]):
+            return False
+        return html_block(state, start, end, silent)
+
+    md.inline.ruler.before("html_inline", "line_break", line_break)
+    md.block.ruler.at("html_block", other_html_block,
+                      {"alt": ["paragraph", "reference", "blockquote"]})
 
     def unsupported_math(state: StateInline, silent: bool) -> bool:
         remaining = state.src[state.pos:]

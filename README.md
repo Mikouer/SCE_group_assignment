@@ -124,6 +124,11 @@ are uploaded as attachments; the assets folder does not need an `index.yaml`.
 Use ordinary HTTPS links for external sources. When renaming a source file,
 update its index entry and all links that refer to it.
 
+For line breaks inside table cells, use `<br>` (or `<br/>` / `<br />`).
+For example, `Served: ...<br><br>Violated: ...` creates two line breaks between
+the statements in XWiki. Only these bare line-break tags are supported; other
+HTML and tags with attributes are not.
+
 ## Local compilation and publishing
 
 From the repository root, install the converter once:

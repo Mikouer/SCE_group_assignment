@@ -346,7 +346,9 @@ def test_push_file_rejects_prune_before_connecting(monkeypatch, tmp_path):
 def test_push_commands_execute_shared_publishing_and_verification(
         tmp_path, monkeypatch, command):
     folder = tmp_path / "tree"
-    file = page(folder / "overview.md", "Root", "# Replacement\n")
+    file = page(folder / "overview.md", "Root",
+                "# Replacement\n\nFirst<br>Second\n\n"
+                "| Criteria |\n| --- |\n| Served<br/><br />Violated |\n")
     if command == "push-tree":
         node(folder, file.name, ["child.md"])
         page(folder / "child.md", "Child", "# Child\n")
@@ -370,6 +372,9 @@ def test_push_commands_execute_shared_publishing_and_verification(
     assert summary["verification"]["operations"] == []
     assert session.pages[root].title == "Keep existing title"
     assert "Replacement" in session.pages[root].content
+    assert "First\\\\\nSecond" in session.pages[root].content
+    assert "|(((\nServed\\\\\n\\\\\nViolated\n)))" in session.pages[root].content
+    assert "<br" not in session.pages[root].content
     assert session.pages[unrelated] == before
     assert list((output / "backups").glob("*.xml"))
     assert not any(method == "DELETE" for method, url, kwargs in session.calls)

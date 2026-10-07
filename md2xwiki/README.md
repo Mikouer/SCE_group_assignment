@@ -243,8 +243,13 @@ GitHub-style anchors. Local images/files become path-hashed attachments; remote
 images remain remote. HTTP/HTTPS/mailto links are allowed; unsafe schemes fail.
 
 CommonMark formatting, reference links, tables, nested lists, blockquotes and code
-are supported. HTML and Mermaid/math extensions are explicit errors. Literal
-XWiki-looking text is escaped; macro-looking code uses safe verbatim blocks.
+are supported. Bare `<br>`, `<br/>` and `<br />` tags (case-insensitive) become
+native XWiki line breaks, including inside table cells; consecutive tags retain
+consecutive breaks. This applies to `push-file`, `push-tree` and configured
+publishing alike. They are not passed through as HTML. Tags with attributes,
+other HTML, and Mermaid/math extensions remain explicit errors. Line-break tags
+in code or escaped Markdown remain literal. Literal XWiki-looking text is
+escaped; macro-looking code uses safe verbatim blocks.
 
 Reserved per-root manifests retain ownership hashes and pending operations.
 Adopted existing content is backed up before replacement. Drift on replaceable
