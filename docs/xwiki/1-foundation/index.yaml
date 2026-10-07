@@ -1,5 +1,5 @@
 pageText: Foundation.md
 children:
-  - operational-demands
+  #- operational-demands
   - human-factors
   - technology

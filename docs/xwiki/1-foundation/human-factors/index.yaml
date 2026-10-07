@@ -1,7 +1,7 @@
 pageText: HumanFactors.md
 children:
-  - human-values
-  - value-tensions
-  - concepts
+  #- human-values
+  #- value-tensions
+  #- concepts
   - measures
   - evaluation-methods
