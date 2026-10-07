@@ -10,20 +10,23 @@ pageName: "IDP-01: Gentle non-intrusive meal reminders"
 | Status | Under Review |
 | Evidence basis | The project situation, [HFC-01](../../1-foundation/human-factors/concepts/HFC-01.md), [HFC-02](../../1-foundation/human-factors/concepts/HFC-02.md) and the literature below. The exact three-reminder rule is a proposed design decision, not an empirically established safe optimum. |
 | Problem | Cleber may forget meals or miss prompts, but frequent or forceful reminders can feel frustrating, controlling or intrusive. |
-| Principle | Respect food preferences and choices. Refusal does not trigger immediate escalation. Wait before another gentle prompt and notify Sarah if the bounded sequence remains unresolved. |
+| Principle | Respect food preferences and choices. Refusal does not trigger immediate escalation. Wait before another gentle prompt and notify Sarah if the bounded sequence remains unresolved. | 
+| Personalisation and Sarah’s involvement | Sarah and Cleber agree on the mealtimes together, the interval between reminders, and when an unresolved meal should be shared with Sarah. Sarah can suggest settings based on Cleber’s routines, but Cleber’s preferences and choices guide them. They review and adjust the settings together as routines or preferences change. The proposed three-reminder sequence is a starting point for discussion, not a fixed threshold. |
 
 ## Solution
 
-1. **First reminder:** Calm speech, soft LEDs and slow orientation invite Cleber
+1. **Meal preperation by Sarah:** Meals are prepared by Sarah on her regular visits. Therefore, she ensures that Cleber has food to consume in his alone time. The logs the system saves according to Cleber's eating habits allow Sarah to review which foods he ate/didn't eat, and discuss dietary changes if necessary. 
+2. **Agree on the settings:** Sarah discusses the reminder schedule and escalation preferences with Cleber. Together, they decide when reminders should begin, how long to wait between prompts, how many prompts to allow, and when Sarah should be notified. They can revisit these choices based on Cleber’s feedback, on Sarah's visits.
+3. **First reminder:** Calm speech, soft LEDs and slow orientation invite Cleber
    to eat, without assuming he wants the meal Sarah prepared.
-2. **Second reminder:** Respect refusal/non-response, wait the agreed interval,
+4. **Second reminder:** Respect refusal/non-response, wait the agreed interval,
    then offer another gentle reminder. An alternative meal may be offered only
    if one is available.
-3. **Third reminder:** Give a final gentle prompt without louder speech or
+5. **Third reminder:** Give a final gentle prompt without louder speech or
    pressuring language.
-4. **Conditional escalation:** Notify Sarah if refusal, non-response or
+6. **Conditional escalation:** Notify Sarah if refusal, non-response or
    uncertainty remains after the sequence, distinguishing these outcomes.
-5. **Interaction closure:** Stop prompts after confirmed eating or escalation,
+7. **Interaction closure:** Stop prompts after confirmed eating or escalation,
    and return to a resting posture.
 
 ## Research links
