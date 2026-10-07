@@ -95,22 +95,30 @@ def test_file_destination_is_authoritative(tmp_path):
     )
 
 
-def test_header_only_existing_page_is_completely_untouched(tmp_path, monkeypatch):
-    file = page(tmp_path / "container.md", "Metadata name")
+@pytest.mark.parametrize("body", ["", "\n \t\n"])
+@pytest.mark.parametrize("overwrite", [False, True])
+def test_header_only_existing_page_is_completely_untouched(
+        tmp_path, monkeypatch, body, overwrite):
+    file = page(tmp_path / "container.md", "Metadata name", body)
     config = file_config(file, PROJECT + "/Provided/")
     client, session = client_for(config, monkeypatch)
     ref = config.roots[0].reference
     before = RemotePage("Human title", "xwiki/2.0", "Keep this content\n")
     session.pages[ref] = before
     publisher = Publisher(compile_tree(config), client, tmp_path / "output")
-    plan = publisher.preflight()
+    plan = publisher.preflight(overwrite=overwrite)
     assert not plan.operations
     publisher.apply(plan)
     assert session.pages[ref] == before
     assert not any(method == "PUT" and url.endswith(ref.endpoint)
                    for method, url, kwargs in session.calls)
     session.pages[ref] = RemotePage("Updated human title", "xwiki/2.0", "Human edit\n")
-    assert not publisher.preflight().operations
+    plan = publisher.preflight(overwrite=overwrite)
+    assert not plan.operations
+    publisher.apply(plan)
+    assert session.pages[ref] == RemotePage("Updated human title", "xwiki/2.0", "Human edit\n")
+    assert not any(method == "PUT" and url.endswith(ref.endpoint)
+                   for method, url, kwargs in session.calls)
 
 
 def test_header_only_missing_page_is_created_empty(tmp_path, monkeypatch):

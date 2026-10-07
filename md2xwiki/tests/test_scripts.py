@@ -5,6 +5,7 @@ import shutil
 import subprocess
 import sys
 
+import pytest
 import yaml
 
 from md2xwiki.config import load_config
@@ -101,3 +102,37 @@ def test_workflow_builds_before_publishing_without_ci_validation():
     assert "XWIKI_RUNNER_LABELS" not in path.read_text()
     publishing = next(step for step in jobs["publish"]["steps"] if "IMAGE" in step.get("env", {}))
     assert publishing["env"]["IMAGE"] == "${{ needs.metadata.outputs.image }}:${{ github.sha }}"
+    assert "args=(--overwrite)" in publishing["run"]
+
+
+@pytest.mark.parametrize("prune", ["false", "true"])
+def test_workflow_publish_overwrites_but_prunes_only_when_selected(tmp_path, prune):
+    repository = Path(__file__).parents[2]
+    workflow = yaml.load((repository / ".github/workflows/publish-xwiki.yml").read_text(),
+                         Loader=yaml.BaseLoader)
+    step = next(step for step in workflow["jobs"]["publish"]["steps"]
+                if "IMAGE" in step.get("env", {}))
+    workspace = tmp_path / "workspace"
+    workspace.mkdir()
+    shutil.copytree(repository / "scripts", workspace / "scripts")
+    (workspace / "xwiki.toml").write_text("mocked converter configuration\n")
+    binaries = tmp_path / "bin"
+    binaries.mkdir()
+    log = tmp_path / "docker.jsonl"
+    docker = binaries / "docker"
+    docker.write_text(f"""#!{sys.executable}
+import json, os, sys
+with open(os.environ["DOCKER_TEST_LOG"], "a") as stream:
+    stream.write(json.dumps(sys.argv[1:]) + "\\n")
+""")
+    docker.chmod(0o755)
+    env = dict(os.environ, PATH=str(binaries) + os.pathsep + os.environ["PATH"],
+               DOCKER_TEST_LOG=str(log), XWIKI_USERNAME="Publisher",
+               XWIKI_PASSWORD="test-only-placeholder", IMAGE="example:test", PRUNE=prune)
+    subprocess.run(["bash", "-e", "-o", "pipefail", "-c", step["run"]],
+                   cwd=workspace, env=env, check=True, capture_output=True, text=True)
+    calls = [json.loads(line) for line in log.read_text().splitlines()]
+    pipeline = next(args for args in calls if "pipeline" in args)
+    assert "--overwrite" in pipeline
+    assert ("--prune" in pipeline) == (prune == "true")
+    assert "test-only-placeholder" not in " ".join(pipeline)

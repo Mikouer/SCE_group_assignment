@@ -298,16 +298,18 @@ def test_removed_asset_remains_owned_until_pruned(temporary_config, wiki, tmp_pa
     assert set(name for ref, name in session.assets) == {MANIFEST}
 
 
+@pytest.mark.parametrize("body", ["", "\n \t\n"])
+@pytest.mark.parametrize("overwrite", [False, True])
 def test_header_only_page_retains_owned_attachments_even_with_prune(
-        temporary_config, wiki, tmp_path):
+        temporary_config, wiki, tmp_path, body, overwrite):
     client, session = wiki
     publish(temporary_config, client, tmp_path)
     before_pages = dict(session.pages)
     before_assets = dict(session.assets)
-    (temporary_config.source / "index.md").write_text("---\npageName: test\n---\n")
+    (temporary_config.source / "index.md").write_text("---\npageName: test\n---\n" + body)
     publisher = Publisher(compile_tree(temporary_config), client, tmp_path / "output")
     count = len(writes(session))
-    plan = publisher.preflight(prune=True)
+    plan = publisher.preflight(prune=True, overwrite=overwrite)
     assert not plan.operations
     assert not plan.pending_removals
     publisher.apply(plan)

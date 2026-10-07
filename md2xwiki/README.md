@@ -199,6 +199,13 @@ with this repository. GitHub supplies `GITHUB_TOKEN` automatically; do not creat
 a registry token secret. After the image build/push succeeds, the publishing job
 pulls that exact image and publishes the trees from `xwiki.toml`.
 
+The publishing job explicitly passes `--overwrite`: Git is authoritative for
+included pages whose Markdown body is nonempty. Direct wiki edits to those
+bodies are backed up before replacement. Header-only/whitespace-only bodies
+still preserve existing content, title, syntax and owned attachments. Excluded
+pages are retained unless guarded pruning is explicitly selected. CLI/local
+runs keep manual-edit protection unless `--overwrite` is supplied.
+
 The publishing job uses the `xwiki` environment. Configure:
 
 | Setting | Where | Purpose |

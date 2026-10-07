@@ -3,8 +3,9 @@
 The course documentation lives in [`docs/xwiki/`](docs/xwiki) and is published
 to the group XWiki using the converter in [`md2xwiki/`](md2xwiki/README.md).
 Edit the Markdown files here rather than editing managed page bodies directly
-in the wiki. The publisher detects conflicting wiki edits instead of silently
-overwriting them.
+in the wiki. Git is authoritative for included pages with content: the workflow
+backs up and overwrites their wiki bodies, including direct wiki edits.
+Header-only or whitespace-only page bodies preserve existing wiki content.
 
 ## Working on the documentation
 
@@ -153,6 +154,9 @@ Changes to the documentation on `main` trigger the GitHub workflow: it builds
 and pushes the Docker image, then publishes all configured trees when
 `XWIKI_PUBLISH_ENABLED=true`. Pull requests do not publish or run validation;
 compile locally before merging. Missing pages are created automatically.
+Publishing passes `--overwrite`; make a page header-only to preserve its wiki
+body instead. Existing titles are retained. Backups are included in the workflow
+artifacts.
 Removing a page from an index stops publishing it but does **not** delete its
 existing wiki page by default; deletion requires deliberate, guarded pruning.
 Update any links to removed pages so the remaining documentation still compiles.

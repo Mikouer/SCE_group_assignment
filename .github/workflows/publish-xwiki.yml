@@ -84,7 +84,7 @@ jobs:
         shell: bash
         run: |
           docker pull "$IMAGE"
-          args=()
+          args=(--overwrite)
           if [[ "$PRUNE" == true ]]; then args+=(--prune); fi
           bash scripts/run-xwiki.sh "$IMAGE" xwiki.toml build/xwiki "${args[@]}"
       - name: Retain compilation, backups and deployment summaries
