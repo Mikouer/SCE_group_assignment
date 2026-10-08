@@ -30,7 +30,7 @@ Timings below are starting values taken from the storyboard scenario and are to 
 | Postponement (once) | If Cleber says he does not want to eat, the sequence pauses and restarts from step 1. | Logged and shown to Sarah. A second refusal does not reset the sequence. |
 | 4. Escalation | The system does not send a fourth reminder. Sarah receives a short message: which meal, how long since the last confirmed meal, reminders sent, and whether Cleber declined or did not respond. | A refusal and silence mean different things, so the message separates them. |
 | 5. Follow-up | Sarah calls Cleber instead of waiting for her next visit. If Cleber then eats, the system sends a short "resolved" update. | Closes the loop so the alert does not stay open. |
-| If Sarah does not respond | Open decision for the team: repeat once to Sarah, or notify Gilbert ([ST-02](../operational-demands/stakeholders/ST-02.md)) as a backup. | Not yet decided. |
+| If Sarah does not respond | Repeat once to Sarah, then notify Gilbert ([ST-02](../operational-demands/stakeholders/ST-02.md)) as a backup.|
  
 ## Logs and the report for Sarah
  
