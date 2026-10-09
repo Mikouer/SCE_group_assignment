@@ -1,5 +1,5 @@
 ---
-pageName: "Music Management"
+pageName: "Technology Option 1"
 ---
 # TECH-01: Social robot mealtime companion
 
@@ -16,7 +16,7 @@ pageName: "Music Management"
 | Failure and fallback behaviour | Hardware/software failure or rejection of the device may stop reminders. Sarah's next visit, normally every two to three days, offers an eventual human fallback, not immediate fault detection. |
 | Benefits | Intended support for regular meals, achievement ([HV-02](../human-factors/human-values/HV-02.md)) and continuity between Sarah's visits. These effects remain unvalidated. |
 | Drawbacks | Dignity/self-image and acceptance concerns, cost, and extra responsibility shifted to Sarah. [VT-01](../human-factors/value-tensions/VT-01.md) describes the support/independence trade-off. |
-| Selected or rejected | Rejected, as recorded on the existing wiki page; the DOCX left this field open. |
+| Selected or rejected | Rejected as a stand-alone solution. A robot that follows Cleber would solve the reach problem of the alarms and notes in [SA-01](../operational-demands/activities/SA-01.md), but at a high price. A device that trails him through his home all day is a constant presence, which risks feeling like being watched rather than supported and works against his independence ([HV-02](../human-factors/human-values/HV-02.md), [VT-01](../human-factors/value-tensions/VT-01.md)). A moving robot in a home also adds cost, maintenance and a collision or trip hazard for someone who may be unsteady, and if he rejects the device, all support stops. Following him still does not tell the system whether he ate, so Sarah ([ST-03](../operational-demands/stakeholders/ST-03.md)) would be alerted on unreliable information or not alerted when needed. Fixed speakers in every room and kitchen sensing reach him in each room with much less intrusion and cost. The embodied, calm check-in is still valuable, so it is kept as Echo's interaction layer ([RP-01](../../2-specification/personas/robot/RP-01.md)) on top of the room-wide speakers and kitchen sensing selected in [TECH-02](TECH-02.md). |
 
 ## Research links
 

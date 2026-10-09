@@ -15,7 +15,7 @@ pageName: "Technology Option 2"
 | Maturity and feasibility | Medium to high for available smart-home components (speakers, appliance sensors, notifications). Integration, decision logic, the report generation and meal-consumption accuracy remain project work. |
 | Failure and fallback behaviour | Dead batteries or disconnection can cause false alerts or silent failure. One speaker going offline leaves a room uncovered. If the camera does not activate, the meal is logged as unconfirmed rather than eaten. Sensor-health checks are needed, and the report should state when data is missing rather than showing a clean day; a fault missed between Sarah's visits can remain undetected for days. |
 | Benefits | Intended support for the goal in [SA-01](../operational-demands/activities/SA-01.md) and security ([HV-01](../human-factors/human-values/HV-01.md)), with better visibility of unresolved meals between visits. These are proposed benefits, not evaluated outcomes. |
-| Drawbacks | Autonomy/privacy versus safety; alert fatigue and extra on-call demands on Sarah. Limiting postponement trades Cleber's choice against the risk of a missed meal. [VT-01](../human-factors/value-tension/VT-01.md) records the core trade-off. |
+| Drawbacks | Autonomy/privacy versus safety; alert fatigue and extra on-call demands on Sarah. Limiting postponement trades Cleber's choice against the risk of a missed meal. [VT-01](../human-factors/value-tensions/VT-01.md) records the core trade-off. |
 | Selected or rejected | Selected |
  
 ## Reminder and escalation sequence
@@ -57,4 +57,3 @@ No study found tests the plate-away timing log or the exact one-postponement rul
  
 [RP-01](../../2-specification/personas/robot/RP-01.md) describes Echo's intended profile; [AT-01](../../3-evaluation/artifacts/AT-01.md) states which parts the current build can address.
  
-Claude finished the response
