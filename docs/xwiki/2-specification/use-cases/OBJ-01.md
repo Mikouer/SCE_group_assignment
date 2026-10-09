@@ -13,4 +13,4 @@ pageName: "OBJ-01: Regular meal consumption"
 | Type | Operational. |
 | Derived from | The goal "eat regularly and in healthy amounts" in [SA-01](../../1-foundation/operational-demands/activities/SA-01.md), informed by [PS-01](../../1-foundation/operational-demands/problem-scenarios/PS-01.md). |
 | Priority | High: missed meals are the primary project problem. |
-| Served by | [F1](uc01/F1.md), [F2](uc01/F2.md) and [F3](uc01/F3.md) in [UC01](uc01/UC01.md). |
+| Served by | [F1](uc01/F1.md), [F2](uc01/F2.md), [F3](uc01/F3.md) and [F4](uc01/F4.md) in [UC01](uc01/UC01.md). |

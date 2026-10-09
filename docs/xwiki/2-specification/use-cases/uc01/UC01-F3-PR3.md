@@ -7,7 +7,7 @@ pageName: UC01-F3-PR3
 | --- | --- |
 | ID | UC01-F3-PR3 |
 | Function | [F3](F3.md). |
-| Evaluation Method(s) / Measure(s) | [EM-01](../../../1-foundation/human-factors/evaluation-methods/EM-01.md), [M-01](../../../1-foundation/human-factors/measures/M-01.md) and [M-02](../../../1-foundation/human-factors/measures/M-02.md). |
-| Verification Criteria | If eating remains unconfirmed after the final reminder, the interaction escalates. No further prompts follow confirmation or escalation for that meal episode. |
+| Evaluation Method(s) / Measure(s) | [EM-03](../../../1-foundation/human-factors/evaluation-methods/EM-03.md) and [M-04](../../../1-foundation/human-factors/measures/M-04.md). |
+| Verification Criteria | In every scripted scenario ([M-04](../../../1-foundation/human-factors/measures/M-04.md)): if eating remains unconfirmed after the final reminder, Sarah is notified with the outcome stated as refusal, non-response or uncertain; if Sarah does not respond, the message is repeated once and Gilbert is then notified; after Cleber later eats, a resolved update is sent; no further prompts follow confirmation or escalation for that meal episode. The properties concerned are correctness, robustness and conformity to the specified behaviour. |
 | Action Sequence step(s) | [UC01](UC01.md), steps 6-7. |
-| Assessment | Not assessed against the criteria in the supplied material. |
+| Assessment | Not assessed; verification is planned in [ER-01](../../../3-evaluation/reports/ER-01.md). |
