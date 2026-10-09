@@ -13,4 +13,4 @@ pageName: UC01-F2-CL3
 | Evaluation Method(s) / Measure(s) | [EM-02](../../../1-foundation/human-factors/evaluation-methods/EM-02.md) and [M-03](../../../1-foundation/human-factors/measures/M-03.md). |
 | Validation Criteria | After the repeated reminder episodes, the [M-03](../../../1-foundation/human-factors/measures/M-03.md) mean is at least 4 out of 5 (proposed target, to be confirmed before the session), and the observer notes no avoidance of Echo. The questionnaire is an unvalidated adaptation answered by a stand-in participant, so the result speaks to how the interaction felt to that person. |
 | Action Sequence step(s) | [UC01](UC01.md), steps 3-5. |
-| Assessment | Not assessed; validation is planned in [ER-02](../../../3-evaluation/reports/ER-02.md). |
+| Assessment | Not assessed; validation is planned in a later session. |
