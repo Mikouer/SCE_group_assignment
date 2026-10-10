@@ -1,0 +1,84 @@
+
+flowchart TD
+    Prototype["Echo meal check-in prototype"]
+
+    subgraph Requirements["Verification: Does it work correctly?"]
+        P1["PR1: Initial reminder delivered"]
+        P2["PR2: Reminder sequence stays bounded"]
+        P3["PR3: Sarah notified if unresolved"]
+        P4["PR4: Events and outcomes logged"]
+    end
+
+    subgraph Claims["Validation: Does it achieve the intended outcomes?"]
+        C1["CL1: Initial reminder increases<br/>likelihood of eating"]
+        C2["CL2: Follow-up reminders<br/>help recover missed meals"]
+        C3["CL3: User autonomy is preserved"]
+        C4["CL4: Escalation is clear<br/>and actionable"]
+        C5["CL5: Caregiver reports<br/>support informed decisions"]
+    end
+
+    subgraph Methods["Evaluation Methods"]
+        M1["Structured observation"]
+        M2["Post-interaction interview"]
+        M3["Scenario-based verification"]
+        M4["Cognitive walkthrough"]
+    end
+
+    subgraph Measures["Measures"]
+        ME1["Meal completion rate"]
+        ME2["Reminder success rate"]
+        ME3["Perceived autonomy"]
+        ME4["Protocol conformance"]
+        ME5["Caregiver notification clarity"]
+    end
+
+    Prototype --> P1
+    Prototype --> P2
+    Prototype --> P3
+    Prototype --> P4
+
+    P1 --> M4
+    P2 --> M4
+    P3 --> M4
+    P4 --> M3
+
+    M1 --> C1
+    M1 --> C2
+    M2 --> C3
+    M2 --> C4
+    M2 --> C5
+
+    M4 --> C3
+
+    C1 --> ME1
+    C2 --> ME2
+    C3 --> ME3
+    C4 --> ME5
+    C5 --> ME5
+    P1 --> ME4
+    P2 --> ME4
+    P3 --> ME4
+    P4 --> ME4
+
+    M1 --> Evidence["Evidence and findings"]
+    M2 --> Evidence
+    M3 --> Evidence
+    M4 --> Evidence
+
+    Evidence --> Report["Evaluation report"]
+    Report --> Improve["Next iteration:<br/>Refine prototype and resolve<br/>design tensions"]
+    Improve --> Prototype
+
+    classDef prototype fill:#dcedc8,stroke:#558b2f,color:#111
+    classDef requirement fill:#b3e5fc,stroke:#0277bd,color:#111
+    classDef claim fill:#81d4fa,stroke:#01579b,color:#111
+    classDef method fill:#ede7f6,stroke:#4527a0,color:#111
+    classDef measure fill:#eceff1,stroke:#455a64,color:#111
+    classDef report fill:#ffe0b2,stroke:#e65100,color:#111
+
+    class Prototype prototype
+    class P1,P2,P3,P4 requirement
+    class C1,C2,C3,C4,C5 claim
+    class M1,M2,M3,M4 method
+    class ME1,ME2,ME3,ME4,ME5 measure
+    class Evidence,Report,Improve report
