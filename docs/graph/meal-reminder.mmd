@@ -1,0 +1,60 @@
+
+flowchart TD
+    subgraph Foundation["1. Foundation: People and Needs"]
+        Cleber["Cleber<br/>Meal recipient"]
+        Sarah["Sarah<br/>Caregiver"]
+        Gilbert["Gilbert<br/>Grandson"]
+        Doctor["Hanz<br/>Doctor"]
+        Problem["Problem: Missed planned meals"]
+        Values["Values: Security, independence,<br/>health and benevolence"]
+        Human["Human factors:<br/>Clear communication<br/>Choice and control"]
+        Cleber --> Problem
+        Sarah --> Problem
+        Cleber --> Values
+        Sarah --> Values
+        Gilbert --> Values
+        Doctor --> Values
+        Values --> Human
+    end
+
+    subgraph Design["2. Design and Objectives"]
+        Obj1["Objective 1:<br/>Regular meal consumption"]
+        Obj2["Objective 2:<br/>Independence in meal support"]
+        Tech["Selected technology:<br/>Echo speaker + sensors + alerts"]
+        Patterns["Design patterns:<br/>Graduated support<br/>Gentle reminders"]
+        Persona["Echo<br/>Social robot companion"]
+        Problem --> Obj1
+        Values --> Obj2
+        Human --> Patterns
+        Patterns --> Tech
+        Tech --> Persona
+    end
+
+    subgraph Operation["3. System Functions"]
+        UC["Use case:<br/>Support Cleber through a planned meal"]
+        F1["F1: Initial meal reminder"]
+        F2["F2: Bounded follow-up reminders<br/>Maximum 3, one postponement"]
+        F3["F3: Escalate unresolved meal<br/>to Sarah"]
+        F4["F4: Log events and<br/>report outcomes"]
+        Scenario["Meal reminder and escalation<br/>Scenario"]
+        Persona --> UC
+        UC --> F1
+        F1 --> F2
+        F2 --> F3
+        F3 --> F4
+        UC --> Scenario
+        Obj1 --> UC
+        Obj2 --> UC
+    end
+
+    classDef people fill:#e1f5fe,stroke:#0277bd,color:#111
+    classDef values fill:#f3e5f5,stroke:#7b1fa2,color:#111
+    classDef objectives fill:#fff3cd,stroke:#b8860b,color:#111
+    classDef system fill:#dcedc8,stroke:#558b2f,color:#111
+    classDef functions fill:#c8e6c9,stroke:#2e7d32,color:#111
+
+    class Cleber,Sarah,Gilbert,Doctor people
+    class Values,Human,Problem values
+    class Obj1,Obj2 objectives
+    class Tech,Patterns,Persona,UC,Scenario system
+    class F1,F2,F3,F4 functions
