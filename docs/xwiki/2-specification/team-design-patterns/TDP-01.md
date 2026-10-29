@@ -31,11 +31,16 @@ require confirmed consumption before treating a meal as completed.
 - Initiate reminders when the predefined conditions are met.
 - Observe responses and meal-related indicators, distinguishing confirmed
   information from uncertain status.
+- Log a meal as "eaten" only on confirmed consumption through the table camera. Otherwise log it as
+  "uncertain/needs review" (e.g., the plate left the table and no consumption was
+  seen) and show it that way to Sarah.
 - Offer bounded follow-ups and notify Sarah when escalation conditions are met.
 
 ### Sarah
 
 - Review notifications and check meal status when appropriate.
+- For the review, give priority to meals marked as "uncertain/needs review" or that has long plate-away times.
+- Report corrections through the review so that the meal outcome can be adjusted accordingly. 
 - Decide on suitable follow-up assistance in light of her availability.
 
 ### Cleber
@@ -43,6 +48,9 @@ require confirmed consumption before treating a meal as completed.
 - Decide how to respond to reminders.
 - Prepare and consume meals independently when able.
 - Request help when needed.
+- Confirm or correct Echo's record when asked (for example, "I'm done" or "I
+  didn't finish"), so that eating is not inferred from activity alone, and verbal confirmation
+  supports rather than acting as a sole indicator.
 
 ## Connection to claims
 
