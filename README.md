@@ -152,8 +152,11 @@ cross-section links cannot be resolved by publishing a single isolated file.
 
 Changes to the documentation on `main` trigger the GitHub workflow: it builds
 and pushes the Docker image, then publishes all configured trees when
-`XWIKI_PUBLISH_ENABLED=true`. Pull requests do not publish or run validation;
-compile locally before merging. Missing pages are created automatically.
+`XWIKI_PUBLISH_ENABLED=true`. The publishing job connects to TU Delft EduVPN
+using the `EDUVPN_CONFIG` secret before accessing the wiki (see the publisher
+guide for setup and renewal).
+Pull requests do not publish or run validation; compile locally before merging.
+Missing pages are created automatically.
 Publishing passes `--overwrite`; make a page header-only to preserve its wiki
 body instead. Existing titles are retained. Backups are included in the workflow
 artifacts.

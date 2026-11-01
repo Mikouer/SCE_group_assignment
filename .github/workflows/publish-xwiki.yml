@@ -63,6 +63,7 @@ jobs:
        (github.event_name == 'workflow_dispatch' && inputs.target == 'production'))
     needs: [metadata, docker]
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     environment: xwiki
     permissions:
       contents: read
@@ -74,8 +75,54 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Pull the publisher before connecting to EduVPN
+        env:
+          IMAGE: ${{ needs.metadata.outputs.image }}:${{ github.sha }}
+        run: docker pull "$IMAGE"
+      - name: Authenticate to TU Delft EduVPN and wait for the wiki
+        env:
+          EDUVPN_CONFIG: ${{ secrets.EDUVPN_CONFIG }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "$EDUVPN_CONFIG" ]]; then
+            echo "::error::Set EDUVPN_CONFIG to an exported TU Delft eduVPN OpenVPN profile (including its certificate and private key)."
+            exit 1
+          fi
+          sudo apt-get update
+          sudo apt-get install --yes openvpn openvpn-systemd-resolved
+          vpn_dir="$RUNNER_TEMP/xwiki-eduvpn"
+          mkdir -m 700 "$vpn_dir"
+          umask 077
+          printf '%s\n' "$EDUVPN_CONFIG" > "$vpn_dir/client.ovpn"
+          sudo openvpn --config "$vpn_dir/client.ovpn" \
+            --auth-nocache --auth-retry nointeract \
+            --script-security 2 \
+            --up /etc/openvpn/update-systemd-resolved --up-restart \
+            --down /etc/openvpn/update-systemd-resolved --down-pre \
+            --dhcp-option DOMAIN-ROUTE . \
+            --daemon xwiki-eduvpn --writepid "$vpn_dir/openvpn.pid" \
+            --log "$vpn_dir/openvpn.log" --verb 3
+          connected=false
+          for attempt in {1..60}; do
+            if sudo grep -q 'Initialization Sequence Completed' "$vpn_dir/openvpn.log"; then
+              connected=true
+              break
+            fi
+            sleep 2
+          done
+          if [[ "$connected" != true ]]; then
+            echo "::error::EduVPN did not connect within 120 seconds. Check or renew EDUVPN_CONFIG in the TU Delft eduVPN portal."
+            exit 1
+          fi
+          wiki_url=$(python3 -c 'import tomllib; print(tomllib.load(open("xwiki.toml", "rb"))["xwiki"]["project_root"])')
+          # A login/unauthorized response also proves HTTPS reachability; publishing verifies wiki credentials.
+          curl --silent --show-error --output /dev/null \
+            --connect-timeout 10 --max-time 20 --retry 3 --retry-delay 2 \
+            "$wiki_url"
       - name: Publish all configured trees with the SHA-tagged container
         env:
+          MD2XWIKI_USE_HOST_NETWORK: "true"
           XWIKI_USERNAME: ${{ secrets.XWIKI_USERNAME }}
           XWIKI_PASSWORD: ${{ secrets.XWIKI_PASSWORD }}
           XWIKI_EXPECTED_USER: ${{ vars.XWIKI_EXPECTED_USER }}
@@ -83,10 +130,23 @@ jobs:
           PRUNE: ${{ github.event_name == 'workflow_dispatch' && inputs.prune }}
         shell: bash
         run: |
-          docker pull "$IMAGE"
           args=(--overwrite)
           if [[ "$PRUNE" == true ]]; then args+=(--prune); fi
           bash scripts/run-xwiki.sh "$IMAGE" xwiki.toml build/xwiki "${args[@]}"
+      - name: Disconnect EduVPN and remove its credentials
+        if: always()
+        shell: bash
+        run: |
+          vpn_dir="$RUNNER_TEMP/xwiki-eduvpn"
+          if [[ -f "$vpn_dir/openvpn.pid" ]]; then
+            sudo kill -TERM "$(sudo cat "$vpn_dir/openvpn.pid")" || true
+            for attempt in {1..20}; do
+              [[ -f "$vpn_dir/openvpn.pid" ]] || break
+              sleep 1
+            done
+          fi
+          sudo rm -f "$vpn_dir/client.ovpn" "$vpn_dir/openvpn.pid" "$vpn_dir/openvpn.log"
+          if [[ -d "$vpn_dir" ]]; then rmdir "$vpn_dir"; fi
       - name: Retain compilation, backups and deployment summaries
         if: always()
         uses: actions/upload-artifact@v4

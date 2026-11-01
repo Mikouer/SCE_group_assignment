@@ -211,12 +211,30 @@ The publishing job uses the `xwiki` environment. Configure:
 | Setting | Where | Purpose |
 | --- | --- | --- |
 | `XWIKI_USERNAME`, `XWIKI_PASSWORD` | Repository or `xwiki` environment secrets | Publisher account |
+| `EDUVPN_CONFIG` | Repository or `xwiki` environment secret | Complete exported TU Delft eduVPN OpenVPN profile, including inline certificate and private key |
 | `XWIKI_EXPECTED_USER` (optional) | Repository or `xwiki` environment variable | Exact authenticated reference |
 | `XWIKI_PUBLISH_ENABLED` | Repository variable | Leave unset until docs are ready; then `true` |
 
 Publishing runs on GitHub-hosted `ubuntu-latest`, which includes Docker; no
-self-hosted runner or runner-label variable is needed. The course wiki must be
-reachable from that runner. For manual publishing, select target `production`.
+self-hosted runner or runner-label variable is needed. After pulling the image,
+the job connects to TU Delft eduVPN, waits for the tunnel and checks wiki HTTPS
+reachability before any wiki reads or writes. The publishing container shares
+the runner's VPN routes and VPN DNS. An always-run step disconnects the VPN and
+removes its temporary profile and logs before artifact upload.
+
+To configure unattended VPN authentication, sign in to the
+[TU Delft eduVPN portal](https://tudelft.eduvpn.nl/), generate an OpenVPN profile
+for access to the university network, and copy the **entire `.ovpn` file** into
+`EDUVPN_CONFIG`. Use a self-contained profile with inline credentials that can
+connect without browser interaction, a password prompt or MFA on the runner.
+The profile authenticates the VPN; `XWIKI_USERNAME` and `XWIKI_PASSWORD` still
+authenticate the wiki separately. Never put the profile in the repository.
+Exported profiles expire: renew the secret before its portal expiry date, or
+after revocation. See eduVPN's
+[manual client documentation](https://docs.eduvpn.org/server/v3/client-compat.html).
+Local publishing still requires connecting to the university VPN yourself.
+
+For manual publishing, select target `production`.
 Publishing needs the default branch and the enabled variable. Pruning is off
 unless explicitly selected for manual production deployment. Enable repository
 Actions access to the GHCR package if needed.

@@ -26,7 +26,13 @@ case "$command" in
   pipeline|cleanup) ;;
   *) echo "Unsupported container command: $command" >&2; exit 2 ;;
 esac
+network_args=()
+if [[ "${MD2XWIKI_USE_HOST_NETWORK:-false}" == true ]]; then
+  # Linux CI: share the runner's VPN routes and systemd-resolved VPN DNS.
+  network_args=(--network host --dns 127.0.0.53)
+fi
 docker run --rm --user "$(id -u):$(id -g)" \
+  "${network_args[@]}" \
   --mount "type=bind,source=$repo,target=/workspace,readonly" \
   --mount "type=bind,source=$repo/$output,target=/output" \
   --env XWIKI_USERNAME --env XWIKI_PASSWORD --env XWIKI_EXPECTED_USER \
