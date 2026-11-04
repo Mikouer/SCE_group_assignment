@@ -11,9 +11,9 @@ verification or validation result.
 
 | Premise | What needs to be established | Assessment | Report / evidence |
 | --- | --- | --- | --- |
-| [UC01-F1-PR1](../2-specification/use-cases/uc01/UC01-F1-PR1.md) | Triggered delivery of the initial reminder and response recording. | Not assessed. | [ER-01](reports/ER-01.md) is a plan only; no evidence record. |
-| [UC01-F2-PR2](../2-specification/use-cases/uc01/UC01-F2-PR2.md) | Bounded follow-ups and correct separation of activity from eating. | Not assessed. | No completed report or evidence record. |
-| [UC01-F3-PR3](../2-specification/use-cases/uc01/UC01-F3-PR3.md) | Escalation of unresolved meals and cessation of further prompts. | Not assessed. | No completed report or evidence record. |
+| [UC01-F1-PR1](../2-specification/use-cases/uc01/UC01-F1-PR1.md) | Untouched-meal sensing is available before initial reminder delivery is tested. | Not assessed. | [ER-01](reports/ER-01.md) is a plan only; no evidence record. |
+| [UC01-F2-PR2](../2-specification/use-cases/uc01/UC01-F2-PR2.md) | Camera-based consumption and meal-end detection is available before bounded follow-ups are tested. | Not assessed. | No completed report or evidence record. |
+| [UC01-F3-PR3](../2-specification/use-cases/uc01/UC01-F3-PR3.md) | Alerts reach Sarah's receiving interface before escalation and closure are tested. | Not assessed. | No completed report or evidence record. |
 
 [AT-01](artifacts/AT-01.md) does not establish the accuracy of real-kitchen meal detection or the
 unimplemented context-aware behaviours in [RP-01](../2-specification/personas/robot/RP-01.md).
