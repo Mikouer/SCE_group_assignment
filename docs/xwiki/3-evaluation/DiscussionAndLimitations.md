@@ -10,7 +10,7 @@ limitations below are not represented as newly verified empirical findings.
 ## Reasons for not eating
 
 The current design does not adequately distinguish forgetting, sleeping,
-lack of appetite, intentional postponement and dissatisfaction with the
+lack of appetite, and dissatisfaction with the
 available food. These can all lead to a similar reminder/escalation sequence.
 Echo may therefore intervene even when Cleber has intentionally chosen not
 to eat at that moment.
