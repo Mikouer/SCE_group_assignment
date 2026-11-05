@@ -9,7 +9,7 @@ pageName: "IDP-01: Gentle non-intrusive meal reminders"
 | Name | Gentle, non-intrusive meal reminders |
 | Status | Under Review |
 | Evidence basis |
- [HFC-01](../../1-foundation/human-factors/concepts/HFC-01.md) (improper or excessive persistence → annoyance and avoidance) and [HFC-02](../../1-foundation/human-factors/concepts/HFC-02.md) (people with dementia actively configure their own support). The literature supports the direction of the design: check-in framing, limited persistence, personalisation and preserved control. It does not tell us the effective number of reminders or the intervals. The three-reminder sequence is a team design decision, to be tuned in formative evaluation(see [TECH-02](../../1-foundation/technology/TECH-02.md)). |
+ [HFC-01](../../1-foundation/human-factors/concepts/HFC-01.md) and [HFC-02](../../1-foundation/human-factors/concepts/HFC-02.md). The literature supports the direction of the design: check-in framing, limited persistence, personalisation and preserved control. It does not give the effective number of reminders or the intervals. The three-reminder sequence is a design decision, to be tuned in formative evaluation (see [TECH-02](../../1-foundation/technology/TECH-02.md)). |
 | Problem | Cleber may forget meals or miss prompts, but frequent or forceful reminders can feel frustrating, controlling or intrusive. |
 | Principle | A reminder is only useful if Cleber keeps accepting it. Prompts that repeat, get louder or ignore a refusal treat him as someone to be managed. They are likely to cause annoyance and avoidance (HFC-01), which would make every later reminder less effective. Prompts that are calm, spaced and easy to decline leave the decision with him, in line with how people with dementia keep control over their own support (HFC-02). So Echo does not push harder when Cleber doesn’t respond. After a small, agreed number of gentle prompts, the remaining concern goes to Sarah, a person who can talk to him. Responsibility moves to a human instead of the pressure on Cleber increasing. | 
 | Personalisation and Sarah’s involvement | Sarah and Cleber agree on the mealtimes together, the interval between reminders, and when an unresolved meal should be shared with Sarah. Sarah can suggest settings based on Cleber’s routines, but Cleber’s preferences and choices guide them. They review and adjust the settings together as routines or preferences change. The proposed three-reminder sequence is a starting point for discussion, not a fixed threshold. |
@@ -18,11 +18,11 @@ pageName: "IDP-01: Gentle non-intrusive meal reminders"
 
 1. **Meal preperation by Sarah:** Meals are prepared by Sarah on her regular visits. Therefore, she ensures that Cleber has food to consume in his alone time. The logs the system saves according to Cleber's eating habits allow Sarah to review which foods he ate/didn't eat, and discuss dietary changes if necessary. 
 2. **Agree on the settings:** Sarah discusses the reminder schedule and escalation preferences with Cleber. Together, they decide when reminders should begin, how long to wait between prompts, how many prompts to allow, and when Sarah should be notified. They can revisit these choices based on Cleber’s feedback, on Sarah's visits.
-3. **First reminder:** Calm speech, soft LEDs and slow orientation invite Cleber
+3. **First reminder:** A chime and soft LEDs signal the interaction, then calm speech and slow orientation invite Cleber
    to eat, without assuming he wants the meal Sarah prepared.
 4. **Second reminder:** Respect refusal/non-response, wait the agreed interval,
    then offer another gentle reminder. An alternative meal may be offered only
-   if one is available.
+   if one is available. If Cleber says "not now" at the first or second reminder, accept it without comment, tell him when Echo will return (starting value: 30 minutes) and restart from the first reminder; this is allowed once.
 5. **Third reminder:** Give a final gentle prompt without louder speech or
    pressuring language.
 6. **Conditional escalation:** Notify Sarah if refusal, non-response or

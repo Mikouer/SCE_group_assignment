@@ -25,5 +25,4 @@ pageName: "Technology Option 1"
 - Hofstede, B. M., et al. (2025).
   [A field study to explore user experiences with socially assistive robots for older adults: emphasizing the need for more interactivity and personalisation](https://doi.org/10.3389/frobt.2025.1537272).
 
-The chosen approach is recorded in [TECH-02](TECH-02.md) and [RP-01](../../2-specification/personas/robot/RP-01.md). General robot studies
-are not evidence that the particular meal-support claims have been validated.
+The chosen approach is recorded in [TECH-02](TECH-02.md) and [RP-01](../../2-specification/personas/robot/RP-01.md). These studies concern social robots in general, not meal support.

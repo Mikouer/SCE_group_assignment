@@ -18,9 +18,9 @@ pageName: "TDP-01: Graduated Meal Support"
 
 ## Solution structure
 
-![Original graduated meal-support allocation sketch](assets/graduated-meal-support.png)
+![Graduated meal-support allocation](assets/graduated-meal-support.png)
 
-This source sketch shows the allocation flow. Its decision box's "related
+The sketch shows the allocation flow. Its decision box's "related
 activities" wording is not sufficient proof of eating: [F2](../use-cases/uc01/F2.md) and [UC01-F2-PR2](../use-cases/uc01/UC01-F2-PR2.md)
 require confirmed consumption before treating a meal as completed.
 
@@ -59,6 +59,3 @@ require confirmed consumption before treating a meal as completed.
 - [UC01-F2-CL3](../use-cases/uc01/UC01-F2-CL3.md): limited, non-pressuring support for independence.
 - [UC01-F3-CL4](../use-cases/uc01/UC01-F3-CL4.md): handing unresolved situations to Sarah.
 - [UC01-F4-CL5](../use-cases/uc01/UC01-F4-CL5.md): Sarah can distinguish eaten from uncertain meals in the summary.
-
-The follow-up, autonomy and escalation claim identifiers above correct the
-source's mistaken references to the initial-reminder function.

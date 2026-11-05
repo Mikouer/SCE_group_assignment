@@ -27,7 +27,7 @@ Timings below are starting values taken from the storyboard scenario and are to 
 | 1. First reminder | Soft cue, then a calm check-in using Cleber's name, played on all speakers. | Framed as a check-in, not an alarm. |
 | 2. Second reminder | A little more direct, e.g. that the meal is ready in the fridge. | About ten minutes after the first in the storyboard. |
 | 3. Third reminder | Final prompt; same voice, no rise in volume. | The three reminders are spread across roughly the first hour. |
-| Postponement (once) | If Cleber says he does not want to eat, the sequence pauses and restarts from step 1. | Logged and shown to Sarah. A second refusal does not reset the sequence. |
+| Postponement (once) | If Cleber says he does not want to eat at reminder 1 or 2, Echo tells him when it will return (starting value: 30 minutes), then the sequence restarts from step 1. | Logged and shown to Sarah. A second refusal does not reset the sequence. |
 | 4. Escalation | The system does not send a fourth reminder. Sarah receives a short message: which meal, how long since the last confirmed meal, reminders sent, and whether Cleber declined or did not respond. | A refusal and silence mean different things, so the message separates them. |
 | 5. Follow-up | Sarah calls Cleber instead of waiting for her next visit. If Cleber then eats, the system sends a short "resolved" update. | Closes the loop so the alert does not stay open. |
 | Plate taken away | The camera sees the plate leave the table; the time until it returns is logged. | Logging only: no reminders while the plate is away. If it never returns, it is logged as not returned; no alert. |
@@ -40,11 +40,10 @@ Sarah will not analyse raw data. The system records timestamped events and produ
 **What is logged per meal:** when Sarah prepared it, trigger time, each reminder, Cleber's response or postponement, kitchen entry, plate leaving and returning, consumption outcome (eaten / uncertain / not eaten), and any escalation.
  
 **What the report highlights, in this order:**
-1. Items needing attention: escalations, meals not eaten, and unusually long plate-away times (starting value: more than one hour, a team decision to be tuned; the mealtime study below is only a rough reference for a normal duration).
+1. Items needing attention: escalations, meals not eaten, and unusually long plate-away times (starting value: more than one hour, a design decision to be tuned; the mealtime study below is only a rough reference for a normal duration).
 2. Meals per day by outcome, compared with the previous visit period.
 3. Reminder timing: how many reminders each meal needed, the time from first reminder to kitchen entry, and how often postponement was used.
 4. Data gaps, such as an offline sensor, so missing data is not read as "all fine".
-**Using logs to understand timing:** the event logs from the staged runs and the observed meals of the summative test (ER-02) let the team check whether meals usually resolve at the first, second or third reminder, and whether the gaps between reminders feel right. The observation also shows whether the caregiver can read the report and act on it. Because the test is small and short, it tests the timing design and the report format, not long-term behaviour; real timing would only come from a longer deployment.
  
 ## Research links
  
