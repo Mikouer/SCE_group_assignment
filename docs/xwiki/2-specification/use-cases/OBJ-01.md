@@ -7,7 +7,7 @@ pageName: "OBJ-01: Regular meal consumption"
 | --- | --- |
 | ID | OBJ-01 |
 | Name | Support regular meal consumption |
-| Status | In Progress |
+| Status | Finalized |
 | Evidence basis | Goal in [SA-01](../../1-foundation/operational-demands/activities/SA-01.md) and the breakdown in [PS-01](../../1-foundation/operational-demands/problem-scenarios/PS-01.md). |
 | Statement | Cleber starts and completes intended daily meals more consistently, with fewer skipped or unfinished meals. |
 | Type | Operational. |

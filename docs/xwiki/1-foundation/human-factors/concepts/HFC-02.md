@@ -7,7 +7,7 @@ pageName: "HFC-02: Self-management and agency"
 | --- | --- |
 | ID | HFC-02 |
 | Name | Self-management and agency |
-| Status | In Progress. |
+| Status | Finalized. |
 | Evidence basis | Dixon, Piper and Lazar's interview study of 17 technology-savvy people with mild to moderate dementia. |
 | Concept statement | People with dementia can actively configure technological and social resources to manage their lives and preserve control. Support should recognise this agency rather than presume that all decisions must be delegated to a caregiver. |
 | Human factor addressed | Agency, perceived choice and self-management. |

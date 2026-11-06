@@ -7,7 +7,7 @@ pageName: "Technology Option 1"
 | --- | --- |
 | ID | TECH-01 |
 | Name | Social robot mealtime companion |
-| Status | In Progress |
+| Status | Finalized |
 | Evidence basis | Social-robot literature and the project's rationale; provisional, with no direct trial with Cleber. |
 | Category | Social robot. |
 | Capabilities | A physically present device can orient towards Cleber, speak meal reminders, ask whether he has eaten, and contact Sarah ([ST-03](../operational-demands/stakeholders/ST-03.md)) if bounded support is unsuccessful. It can retain a simple meal-status summary for her visits and provide a companion presence. |

@@ -1,7 +1,7 @@
 ---
 pageName: UC01-F2-PR5
 ---
-# UC01-F2-PR5: Accurate eating confirmation and presence detection
+# UC01-F2-PR5: Accurate eating confirmation
 
 | Field | Description |
 | --- | --- |

@@ -13,7 +13,7 @@ pageName: "TDP-01: Graduated Meal Support"
 | Solution Description | Keep decisions with Cleber, allocate bounded reminders to Echo, and involve Sarah under predefined unresolved-meal conditions. Distinguish meal-related activity from confirmed eating. |
 | Consequences: benefits | Opportunities for independent action, with support when needed and potentially fewer unnecessary caregiver interruptions. |
 | Consequences: risks | False inference of eating, missed prompts, caregiver unavailability and feeling monitored. |
-| Literature | The allocation of tasks between Cleber, Echo and Sarah is informed by the idea of choosing the level of automation by its consequences for the people involved: Parasuraman, R., Sheridan, T. B., and Wickens, C. D. (2000). [A model for types and levels of human interaction with automation](https://doi.org/10.1109/3468.844354). *IEEE Transactions on Systems, Man, and Cybernetics, Part A*, 30(3), 286–297. The paper does not address meal support. |
+| Literature | Proto-Pattern: the graduated sequence is our own design and is untested. Keeping decisions with Cleber is consistent with Dixon, Piper and Lazar (2021, [DOI](https://doi.org/10.1145/3411764.3445225)), where people with mild to moderate dementia resisted support that took decisions away. Echo supporting Sarah rather than replacing her is consistent with Moharana et al. (2019, [DOI](https://doi.org/10.1109/HRI.2019.8673206)), where caregivers wanted a supportive robot, not one that replaces them. |
 | Related Patterns | [IDP-01](../interaction-design-patterns/IDP-01.md). |
 | Validation path | The expected effects remain unvalidated; use the methods and measures in the associated claims. |
 

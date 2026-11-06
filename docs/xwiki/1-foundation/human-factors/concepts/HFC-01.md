@@ -7,7 +7,7 @@ pageName: "HFC-01: Proper Communication & Interaction"
 | --- | --- |
 | ID | HFC-01 |
 | Name | Proper Communication and Interaction |
-| Status | In Progress |
+| Status | Finalized |
 | Evidence basis | Literature on healthcare communication, human-automation interaction, and robot failure/recovery preferences. Transfer to this meal-support scenario is provisional. |
 | Concept statement | Assistive technology should provide understandable information and respond appropriately to the situation rather than give misleading or unnecessarily persistent messages. |
 | Human factor addressed | Perceived usefulness, trust and motivation to continue using the tool. |

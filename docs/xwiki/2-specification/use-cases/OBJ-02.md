@@ -7,7 +7,7 @@ pageName: "OBJ-02: Independence in meal support"
 | --- | --- |
 | ID | OBJ-02 |
 | Name | Preserve independence while receiving meal support |
-| Status | In Progress |
+| Status | Finalized |
 | Evidence basis | Achievement ([HV-02](../../1-foundation/human-factors/human-values/HV-02.md)), informed by [HFC-01](../../1-foundation/human-factors/concepts/HFC-01.md) and [HFC-02](../../1-foundation/human-factors/concepts/HFC-02.md). |
 | Statement | Cleber can decide how to respond to meal support and manage meals independently when able, without excessive or pressuring intervention. |
 | Type | Value-derived. |
