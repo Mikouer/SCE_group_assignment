@@ -42,9 +42,7 @@ pageName: "IDP-01: Gentle non-intrusive meal reminders"
 
 - Moharana et al. (2019),[Robots for Joy, Robots for Sorrow: Community Based Robot Design for Dementia Caregivers](https://doi.org/10.1109/HRI.2019.8673206), community-based robot design with dementia caregivers. Caregivers wanted robots to support and encourage, not to replace them or be directive. → HFC-01/HFC-02; supports keeping the robot gentle and handing unresolved situations to Sarah.
 
-- Jönsson et al. (2019),[A reminder system for independence in dementia care: A case study in an assisted living facility](https://doi.org/10.1145/3316782.3321530), reminder system in assisted living. A case study of reminders used to support residents’ independence. → HFC-02. (Check the exact finding against the paper before submitting.)
-
-None of these studies tests a three-step meal reminder sequence. They support the principle, not the parameters.
+None of these studies tests a three-step meal reminder sequence. 
 
 ## Connection to claims
 

@@ -22,6 +22,9 @@ pageName: "Technology Option 1"
 
 - Moharana, S., Panduro, A. E., Lee, H. R., and Riek, L. D. (2019).
   [Robots for Joy, Robots for Sorrow: Community Based Robot Design for Dementia Caregivers](https://doi.org/10.1109/HRI.2019.8673206).
+- Pu, L., Moyle, W., Jones, C., and Todorovic, M. (2019).
+  [The Effectiveness of Social Robots for Older Adults: A Systematic Review and Meta-Analysis of Randomized Controlled Studies](https://doi.org/10.1093/geront/gny046).
+  *The Gerontologist*, 59(1), e37–e51. Social robots appeared to help with agitation, anxiety and quality of life in older adults, but the risk of bias was relatively high, which is why the benefits above remain unvalidated.
 - Hofstede, B. M., et al. (2025).
   [A field study to explore user experiences with socially assistive robots for older adults: emphasizing the need for more interactivity and personalisation](https://doi.org/10.3389/frobt.2025.1537272).
 
