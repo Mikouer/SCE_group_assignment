@@ -1,96 +1,108 @@
+---
+config:
+  layout: elk
+  flowchart:
+    nodeSpacing: 15
+    rankSpacing: 30
+    padding: 8
+  look: handDrawn
+  theme: redux-color
+---
 flowchart LR
-    subgraph Foundation["1. Foundation: context and needs"]
-        Cleber["ST-01 / HP-02<br/>Cleber: meal recipient"]
-        Sarah["ST-03 / HP-01<br/>Sarah: caregiver"]
-        Gilbert["ST-02<br/>Gilbert: grandson"]
-        Activity["SA-01<br/>Planned meal activity"]
-        Problem["PS-01<br/>Missed planned meal<br/>SP-01: meal not initiated<br/>SP-02: skipped meal not noticed"]
-        Security["HV-01<br/>Security"]
-        Achievement["HV-02<br/>Achievement / independence"]
-        Health["HV-04<br/>Health"]
-        Tension["VT-01<br/>Security vs independence"]
-        Cleber --> Activity
-        Sarah --> Activity
-        Activity --> Problem
-        Cleber --> Problem
-        Sarah --> Problem
-        Gilbert --> Security
-        Cleber --> Security
-        Sarah --> Security
-        Cleber --> Achievement
-        Cleber --> Health
-        Problem --> Security
-        Problem --> Health
-        Security --> Tension
-        Achievement --> Tension
-    end
+ subgraph Operational["Operational demands"]
+        ST01("ST-01: Cleber")
+        ST02("ST-02: Gilbert")
+        ST03("ST-03: Sarah")
+        ST04("ST-04: Hanz")
+        SA01("SA-01: Meal activity")
+        PS01("PS-01: Missing a<br>planned meal")
+        SP01("SP-01: ST-01 does not initiate<br>a planned meal")
+        SP02("SP-02: ST-03 does not notice<br>the skipped meal until next visit")
+  end
+ subgraph Values["Human values"]
+        HV01("HV-01: Security")
+        HV02("HV-02: Achievement")
+        HV03("HV-03: Benevolence")
+        HV04("HV-04: Health")
+  end
+ subgraph Factors["Human-factor concepts"]
+        HFC01("HFC-01")
+        HFC02("HFC-02: Self-management<br>and agency")
+  end
+ subgraph Foundation["Foundation"]
+        Operational
+        Values
+        Factors
+  end
+ subgraph Design["Design rationales"]
+        TDP01("TDP-01: Graduated<br>meal support")
+        IDP01("IDP-01: Gentle reminders")
+        TECH02("TECH-02: Selected<br>meal-support technology")
+        RP01("RP-01: Echo")
+  end
+ subgraph Objectives["Objectives"]
+        OBJ01("OBJ-01: Regular<br>meal consumption")
+        OBJ02("OBJ-02: Independence<br>in meal support")
+  end
+ subgraph UseCase["Use case and functions"]
+        UC01("UC01: Support Cleber<br>through a planned meal")
+        F1("F1: Initial meal reminder")
+        F2("F2: Follow-up reminders<br>and eating confirmation")
+        F3("F3: Escalation and<br>interaction closure")
+        F4("F4: Meal event log<br>and report for Sarah")
+  end
+ subgraph Premises["Premises"]
+        PR1("UC01-F1-PR1:<br>Initial reminder delivery")
+        PR2("UC01-F2-PR2:<br>Bounded and accurate<br>reminder sequence")
+        PR3("UC01-F3-PR3:<br>Escalation and<br>interaction closure")
+        PR4("UC01-F4-PR4:<br>Meal event log and<br>report for Sarah")
+        PR5("UC01-F2-PR5:<br>Accurate eating confirmation")
+  end
+ subgraph Claims["Claims"]
+        CL1("UC01-F1-CL1:<br>Initial reminder effectiveness")
+        CL2("UC01-F2-CL2:<br>Follow-up reminder effectiveness")
+        CL3("UC01-F2-CL3:<br>Retained perceived autonomy")
+        CL4("UC01-F3-CL4:<br>Unresolved meal escalation")
+        CL5("UC01-F4-CL5:<br>Informed caregiver follow-up")
+  end
+ subgraph Specification["Specification"]
+        Objectives
+        UseCase
+        Premises
+        Claims
+  end
+    SA01 -- breakdown documented as --> PS01
+    PS01 -- includes --> SP01 & SP02
+    ST01 -. involved .-> PS01
+    ST03 -. involved .-> PS01
+    UC01 -- realizes --> F1 & F2 & F3 & F4
+    OBJ01 -- served by --> UC01 & F1 & F2 & F3 & F4
+    OBJ02 -- served by --> UC01 & F1 & F2 & F3
+    F1 -- has premise --> PR1
+    F1 -- has claim --> CL1
+    F2 -- has premises --> PR2 & PR5
+    F2 -- has claims --> CL2 & CL3
+    F3 -- has premise --> PR3
+    F3 -- has claim --> CL4
+    F4 -- has premise --> PR4
+    F4 -- has claim --> CL5
+    PS01 -- informs --> OBJ01
+    HV02 -- derived into --> OBJ02
+    HFC01 -. grounding noted .-> OBJ02 & CL2 & CL3
+    HFC02 -. grounding noted .-> OBJ02 & CL3
+    HV01 -. grounding noted .-> CL4
+    HV03 -. grounding noted .-> CL5
+    TDP01 -- used by --> UC01
+    IDP01 -- used by --> UC01
+    RP01 -- actor in --> UC01
 
-    subgraph Design["2. Objectives and design rationale"]
-        Obj1["OBJ-01<br/>Support regular meal consumption"]
-        Obj2["OBJ-02<br/>Preserve independence in meal support"]
-        TDP["TDP-01<br/>Graduated meal support"]
-        IDP["IDP-01<br/>Gentle reminders"]
-        Tech["TECH-02<br/>Room-wide speakers + sensing"]
-        Robot["RP-01<br/>Echo interaction layer"]
-        Cleber --> Obj1
-        Problem --> Obj1
-        Security --> Obj1
-        Health --> Obj1
-        Achievement --> Obj2
-        Tension --> TDP
-        Tension --> IDP
-        Obj1 --> TDP
-        Obj2 --> TDP
-        Obj2 --> IDP
-        TDP --> Tech
-        IDP --> Tech
-        Tech --> Robot
-    end
-
-    subgraph Specification["3. Specification: UC01"]
-        UC["UC01<br/>Support Cleber through a planned meal"]
-        F1["F1<br/>Initial reminder"]
-        F2["F2<br/>Observe response; bounded reminders<br/>one postponement; confirm eating"]
-        F3["F3<br/>Escalate unresolved meal;<br/>close interaction"]
-        F4["F4<br/>Log events and report outcomes"]
-        PR1["PR1<br/>Initial reminder delivery"]
-        PR2["PR2<br/>Bounded and accurate reminder sequence"]
-        PR3["PR3<br/>Escalation and interaction closure"]
-        PR4["PR4<br/>Meal event log and report"]
-        PR5["PR5<br/>Accurate eating confirmation"]
-        CL1["CL1<br/>Initial reminder leads to eating"]
-        CL2["CL2<br/>Follow-ups help recover missed meals"]
-        CL3["CL3<br/>Choice and control preserved"]
-        CL4["CL4<br/>Sarah understands and can act on alert"]
-        CL5["CL5<br/>Sarah understands summary and follow-up"]
-        UC --> F1
-        UC --> F2
-        UC --> F3
-        UC --> F4
-        F1 --> PR1
-        F1 --> CL1
-        F2 --> PR2
-        F2 --> PR5
-        F2 --> CL2
-        F2 --> CL3
-        F3 --> PR3
-        F3 --> CL4
-        F4 --> PR4
-        F4 --> CL5
-        Obj1 --> UC
-        Obj2 --> UC
-        TDP --> UC
-        IDP --> UC
-        Robot --> UC
-    end
-
-    classDef people fill:#e1f5fe,stroke:#0277bd,color:#111
-    classDef foundation fill:#f3e5f5,stroke:#7b1fa2,color:#111
-    classDef objectives fill:#fff3cd,stroke:#b8860b,color:#111
-    classDef design fill:#dcedc8,stroke:#558b2f,color:#111
-    classDef spec fill:#c8e6c9,stroke:#2e7d32,color:#111
-    class Cleber,Sarah,Gilbert people
-    class Activity,Problem,Security,Achievement,Health,Tension foundation
-    class Obj1,Obj2 objectives
-    class TDP,IDP,Tech,Robot design
-    class UC,F1,F2,F3,F4,PR1,PR2,PR3,PR4,PR5,CL1,CL2,CL3,CL4,CL5 spec
+     Operational:::roundedGroup
+     Values:::roundedGroup
+     Factors:::roundedGroup
+     Objectives:::roundedGroup
+     UseCase:::roundedGroup
+     Premises:::roundedGroup
+     Claims:::roundedGroup
+    classDef roundedGroup rx:12,ry:12
+    style Specification fill:#cccccc54
+    style Foundation fill:#BBDEFB
