@@ -13,7 +13,7 @@ pageName: "TDP-01: Graduated Meal Support"
 | Solution Description | Keep decisions with Cleber, allocate bounded reminders to Echo, and involve Sarah under predefined unresolved-meal conditions. Distinguish meal-related activity from confirmed eating. |
 | Consequences: benefits | Opportunities for independent action, with support when needed and potentially fewer unnecessary caregiver interruptions. |
 | Consequences: risks | False inference of eating, missed prompts, caregiver unavailability and feeling monitored. |
-| Literature | Proto-Pattern: the graduated sequence is our own design and is untested. Keeping decisions with Cleber is consistent with Dixon, Piper and Lazar (2021, [DOI](https://doi.org/10.1145/3411764.3445225)), where people with mild to moderate dementia resisted support that took decisions away. Echo supporting Sarah rather than replacing her is consistent with Moharana et al. (2019, [DOI](https://doi.org/10.1109/HRI.2019.8673206)), where caregivers wanted a supportive robot, not one that replaces them. |
+| Literature | Proto-Pattern: the graduated sequence is our own design and is untested. Keeping decisions with Cleber is consistent with Dixon, Piper and Lazar [1], where people with mild to moderate dementia resisted support that took decisions away. Echo supporting Sarah rather than replacing her is consistent with Moharana et al. [2], where caregivers wanted a supportive robot, not one that replaces them. |
 | Related Patterns | [IDP-01](../interaction-design-patterns/IDP-01.md). |
 | Validation path | The expected effects remain unvalidated; use the methods and measures in the associated claims. |
 
@@ -22,8 +22,7 @@ pageName: "TDP-01: Graduated Meal Support"
 ![Graduated meal-support allocation](assets/graduated-meal-support.png)
 
 The sketch shows the allocation flow. Its decision box's "related
-activities" wording is not sufficient proof of eating: [F2](../use-cases/uc01/F2.md) and [UC01-F2-PR2](../use-cases/uc01/UC01-F2-PR2.md)
-require confirmed consumption before treating a meal as completed.
+activities" wording is not sufficient proof of eating: [F2](../use-cases/uc01/F2.md) and [UC01-F2-PR2](../use-cases/uc01/UC01-F2-PR2.md) require confirmed consumption before treating a meal as completed.
 
 ## Per-actor allocation
 
@@ -60,3 +59,9 @@ require confirmed consumption before treating a meal as completed.
 - [UC01-F2-CL3](../use-cases/uc01/UC01-F2-CL3.md): limited, non-pressuring support for independence.
 - [UC01-F3-CL4](../use-cases/uc01/UC01-F3-CL4.md): handing unresolved situations to Sarah.
 - [UC01-F4-CL5](../use-cases/uc01/UC01-F4-CL5.md): Sarah can distinguish eaten from uncertain meals in the summary.
+
+## References
+
+[1] Dixon, E., Piper, A. M., and Lazar, A. (2021). ["Taking care of myself as long as I can": How People with Dementia Configure Self-Management Systems](https://doi.org/10.1145/3411764.3445225). In *Proceedings of the 2021 CHI Conference on Human Factors in Computing Systems*, 1–14.
+
+[2] Moharana, S., Panduro, A. E., Lee, H. R., and Riek, L. D. (2019). [Robots for Joy, Robots for Sorrow: Community Based Robot Design for Dementia Caregivers](https://doi.org/10.1109/HRI.2019.8673206). In *2019 14th ACM/IEEE International Conference on Human-Robot Interaction (HRI)*, 458–467.

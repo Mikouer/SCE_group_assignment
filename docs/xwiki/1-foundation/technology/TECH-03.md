@@ -15,13 +15,9 @@ pageName: "Technology Option 3"
 | Maturity and feasibility | High — commercial smart-home camera systems are mature and inexpensive to deploy; the technical barrier is low, but the social and ethical barrier is high. |
 | Failure and fallback behaviour | Camera outage or obstruction (e.g. accidental coverage of unwanted recordings, out of frame) leads to silent monitoring gaps that are easy to miss, since there isn't a reminder mechanism prompting Cleber in the meantime. |
 | Benefits | Sarah would be able to have a complete picture of Cleber's day and the data recorded can help personalize the tool or make mealtimes efficient, in principle. |
-| Drawbacks | Strains [VT-01] (autonomy/dignity vs. safety) more severely than any other option considered. Continuous visual monitoring is associated with reduced dignity and a pressuring sense of surveillance rather than support in the literature. Additionally, a controlled study directly compares camera monitoring to robot monitoring and found that older adults tend to perform behaviour to avoid the surveilance as much as possible, more than with an embodied robot. |
+| Drawbacks | Strains [VT-01] (autonomy/dignity vs. safety) more severely than any other option considered. Continuous visual monitoring is associated with reduced dignity and a pressuring sense of surveillance rather than support in the literature. Additionally, a controlled study (Caine et al. [1]) directly compares camera monitoring to robot monitoring and found that older adults tend to perform behaviour to avoid the surveilance as much as possible, more than with an embodied robot. |
 | Selected or rejected | Rejected. A continuous camera system optimizes visibility but sacrifices Cleber's privacy creating a sense of being watched rather than supported. This goes against the "quiet companion, not a monitor" framing essential to Echo's design ([RP-01](../../2-specification/personas/robot/RP-01.md)). Task-scoped kitchen sensing (TECH-02) and an embodied, opt-in check-in (TECH-01) were judged to meet the same safety need with substantially less erosion of dignity. |
 
-## Research link
+## References
 
-Caine, K., Šabanović, S., & Carter, M. (2012).
-[The effect of monitoring by cameras and robots on the privacy enhancing behaviors of older adults](https://doi.org/10.1145/2157689.2157807).
-In *Proceedings of the 7th ACM/IEEE International Conference on Human-Robot Interaction (HRI '12)* (pp. 343–350).
-
-
+[1] Caine, K., Šabanović, S., and Carter, M. (2012). [The effect of monitoring by cameras and robots on the privacy enhancing behaviors of older adults](https://doi.org/10.1145/2157689.2157807). In *Proceedings of the 7th ACM/IEEE International Conference on Human-Robot Interaction (HRI '12)*, 343–350.

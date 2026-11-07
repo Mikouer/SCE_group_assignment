@@ -12,9 +12,17 @@ pageName: "HFC-01: Proper Communication & Interaction"
 | Concept statement | Assistive technology should provide understandable information and respond appropriately to the situation rather than give misleading or unnecessarily persistent messages. |
 | Human factor addressed | Perceived usefulness, trust and motivation to continue using the tool. |
 | Proposed mechanism | Clear communication can support understanding and coordination. False or improper information can undermine trust; excessive persistence may produce annoyance and avoidance. |
-| Source | Leonard, Graham and Bonacum (2004), [The human factor: the critical importance of effective teamwork and communication in providing safe care](https://doi.org/10.1136/qhc.13.suppl_1.i85); Sheridan and Parasuraman (2005), [Human-Automation Interaction](https://doi.org/10.1518/155723405783703082); [RFM-HRI: A Multimodal Dataset of Medical Robot Failure, User Reaction and Recovery Preferences for Item Retrieval Tasks](https://arxiv.org/abs/2603.05641). |
+| Source | Leonard, Graham and Bonacum [1]; Sheridan and Parasuraman [2]; Batra et al. [3]. |
 | Conditions and population of validity | The healthcare source concerns communication among clinicians. The automation review and robot-retrieval dataset are not direct evaluations of meal reminders for people with dementia. Transfer to Cleber is not established. |
 | Predicted Effect type | Sustained use and reduced avoidance of reminders. |
 | Associated Measures | [M-02](../measures/M-02.md) measures response to reminders; [M-03](../measures/M-03.md) can inform the autonomy/acceptance concern, without substituting for a validated trust or annoyance instrument; [M-05](../measures/M-05.md) measures whether Sarah understands the alert and summary she receives. |
 
 [IDP-01](../../../2-specification/interaction-design-patterns/IDP-01.md) applies the proposed principle through a bounded, calm reminder sequence.
+
+## References
+
+[1] Leonard, M., Graham, S., and Bonacum, D. (2004). [The human factor: the critical importance of effective teamwork and communication in providing safe care](https://doi.org/10.1136/qhc.13.suppl_1.i85). *Quality and Safety in Health Care*, 13(suppl 1), i85–i90.
+
+[2] Sheridan, T. B., and Parasuraman, R. (2005). [Human-Automation Interaction](https://doi.org/10.1518/155723405783703082). *Reviews of Human Factors and Ergonomics*, 1(1), 89–129.
+
+[3] Batra, Y., et al. (2026). [RFM-HRI: A Multimodal Dataset of Medical Robot Failure, User Reaction and Recovery Preferences for Item Retrieval Tasks](https://arxiv.org/abs/2603.05641). arXiv:2603.05641.

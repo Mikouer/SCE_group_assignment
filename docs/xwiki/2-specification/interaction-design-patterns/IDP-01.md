@@ -9,7 +9,7 @@ pageName: "IDP-01: Gentle non-intrusive meal reminders"
 | Name | Gentle, non-intrusive meal reminders |
 | Status | Under Review |
 | Evidence basis |
- [HFC-01](../../1-foundation/human-factors/concepts/HFC-01.md) and [HFC-02](../../1-foundation/human-factors/concepts/HFC-02.md). The literature supports the direction of the design: check-in framing, personalisation and preserved control. It does not give the effective number of reminders or the intervals. The three-reminder sequence is a design decision, to be tuned in formative evaluation (see [TECH-02](../../1-foundation/technology/TECH-02.md)). |
+ [HFC-01](../../1-foundation/human-factors/concepts/HFC-01.md) and [HFC-02](../../1-foundation/human-factors/concepts/HFC-02.md). The literature [1]–[5] supports the direction of the design: check-in framing, personalisation and preserved control. It does not give the effective number of reminders or the intervals. The three-reminder sequence is a design decision, to be tuned in formative evaluation (see [TECH-02](../../1-foundation/technology/TECH-02.md)). |
 | Problem | Cleber may forget meals or miss prompts, but frequent or forceful reminders can feel frustrating, controlling or intrusive. |
 | Principle | A reminder is only useful if Cleber keeps accepting it. Prompts that repeat, get louder or ignore a refusal treat him as someone to be managed. They are likely to cause annoyance and avoidance (HFC-01), which would make every later reminder less effective. Prompts that are calm, spaced and easy to decline leave the decision with him, in line with how people with dementia keep control over their own support (HFC-02). So Echo does not push harder when Cleber doesn’t respond. After a small, agreed number of gentle prompts, the remaining concern goes to Sarah, a person who can talk to him. Responsibility moves to a human instead of the pressure on Cleber increasing. | 
 | Personalisation and Sarah’s involvement | Sarah and Cleber agree on the mealtimes together, the interval between reminders, and when an unresolved meal should be shared with Sarah. Sarah can suggest settings based on Cleber’s routines, but Cleber’s preferences and choices guide them. They review and adjust the settings together as routines or preferences change. The proposed three-reminder sequence is a starting point for discussion, not a fixed threshold. |
@@ -30,19 +30,7 @@ pageName: "IDP-01: Gentle non-intrusive meal reminders"
 7. **Interaction closure:** Stop prompts after confirmed eating or escalation,
    and return to a resting posture.
 
-## Research links
-
-- Mathur et al. (2022), [A Collaborative Approach to Support Medication Management in Older Adults with MCI Using Conversational Assistants](https://dl.acm.org/doi/fullHtml/10.1145/3517428.3544830), ASSETS '22. A conversational check-in assistant, evaluated over 20 weeks with older adults with mild cognitive impairment, increased acceptance of the system. → HFC-01; supports a check-in framing rather than an alarm. It does not test the number or spacing of reminders.
-
-- McGee-Lennon, Wolters & Brewster (2011),[User-centred multimodal reminders for assistive living](https://doi.org/10.1145/1978942.1979248), user-centred multimodal reminders. Reminder preferences differed strongly between people and contexts, and badly matched reminders were seen as intrusive. → HFC-01; supports agreeing modality, timing and frequency with Cleber rather than fixing them.
-
-- Dixon, Piper & Lazar (2021), ["Taking care of myself as long as I can": How People with Dementia Configure Self-Management Systems](https://doi.org/10.1145/3411764.3445225), self-management systems. People with mild to moderate dementia combined technology and other people to stay in control, and resisted support that took decisions away from them. → HFC-02; supports treating refusal as a valid choice and letting Cleber set the reminder settings with Sarah.
-
-- Foley et al. (2019),[Printer Pals: Experience-centered design to support agency for people with dementia](https://doi.org/10.1145/3290605.3300634), Printer Pals. Designing around choice and enjoyment supported a sense of agency in people with dementia. → HFC-02; supports framing the prompt as an invitation, not an instruction.
-
-- Moharana et al. (2019),[Robots for Joy, Robots for Sorrow: Community Based Robot Design for Dementia Caregivers](https://doi.org/10.1109/HRI.2019.8673206), community-based robot design with dementia caregivers. Caregivers wanted robots to support and encourage, not to replace them or be directive. → HFC-01/HFC-02; supports keeping the robot gentle and supportive of caregivers rather than replacing them.
-
-None of these studies tests a three-step meal reminder sequence. 
+None of the cited studies tests a three-step meal reminder sequence. 
 
 ## Connection to claims
 
@@ -51,3 +39,15 @@ None of these studies tests a three-step meal reminder sequence.
 - [UC01-F2-CL3](../use-cases/uc01/UC01-F2-CL3.md): calm, preference-respecting support for perceived control.
 - [UC01-F3-CL4](../use-cases/uc01/UC01-F3-CL4.md): a final step that communicates an unresolved meal and closes
   the interaction.
+
+## References
+
+[1] Mathur, N., Dhodapkar, K., Zubatiy, T., Li, J., Jones, B., and Mynatt, E. (2022). [A Collaborative Approach to Support Medication Management in Older Adults with Mild Cognitive Impairment Using Conversational Assistants (CAs)](https://doi.org/10.1145/3517428.3544830). In *Proceedings of the 24th International ACM SIGACCESS Conference on Computers and Accessibility (ASSETS '22)*, 1–14.
+
+[2] McGee-Lennon, M., Wolters, M., and Brewster, S. (2011). [User-centred multimodal reminders for assistive living](https://doi.org/10.1145/1978942.1979248). In *Proceedings of the SIGCHI Conference on Human Factors in Computing Systems*, 2105–2114.
+
+[3] Dixon, E., Piper, A. M., and Lazar, A. (2021). ["Taking care of myself as long as I can": How People with Dementia Configure Self-Management Systems](https://doi.org/10.1145/3411764.3445225). In *Proceedings of the 2021 CHI Conference on Human Factors in Computing Systems*, 1–14.
+
+[4] Foley, S., Welsh, D., Pantidi, N., Morrissey, K., Nappey, T., and McCarthy, J. (2019). [Printer Pals: Experience-centered design to support agency for people with dementia](https://doi.org/10.1145/3290605.3300634). In *Proceedings of the 2019 CHI Conference on Human Factors in Computing Systems*, 1–13.
+
+[5] Moharana, S., Panduro, A. E., Lee, H. R., and Riek, L. D. (2019). [Robots for Joy, Robots for Sorrow: Community Based Robot Design for Dementia Caregivers](https://doi.org/10.1109/HRI.2019.8673206). In *2019 14th ACM/IEEE International Conference on Human-Robot Interaction (HRI)*, 458–467.
